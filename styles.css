@@ -2798,56 +2798,15 @@ body { min-width: 320px; overflow-x: clip; }
 .map-label-bg,.map-city-bg { fill:#fff; fill-opacity:.96; stroke:#b9d0ca; stroke-width:1.5; }
 .map-city-label { fill:#233f3a; font:700 12px system-ui,-apple-system,sans-serif; }
 
-/* Cinematic Adwin opening reveal */
-.startup-intro { display:none; position:fixed; inset:0; z-index:99999; overflow:hidden; isolation:isolate; place-items:center; background:#07152c; color:#fff; opacity:1; }
-html.intro-playing .startup-intro { display:grid; animation:introFadeIn .5s ease both; }
-body.intro-lock { overflow:hidden; }
-.startup-intro.intro-finished { pointer-events:none; will-change:transform; animation:introCurtainOut 1s cubic-bezier(.76,0,.24,1) forwards; }
-.startup-intro::after { content:""; position:absolute; z-index:4; top:-5%; right:-3%; width:15vw; min-width:72px; height:110%; pointer-events:none; opacity:.58; background:linear-gradient(90deg,transparent,rgba(77,139,255,.2) 45%,rgba(233,242,255,.62)); filter:blur(22px); }
-.intro-grid { position:absolute; inset:-30%; opacity:.16; background-image:linear-gradient(rgba(141,180,255,.2) 1px,transparent 1px),linear-gradient(90deg,rgba(141,180,255,.2) 1px,transparent 1px); background-size:56px 56px; transform:perspective(600px) rotateX(58deg) scale(1.3); transform-origin:center 70%; mask-image:linear-gradient(transparent,#000 22%,#000 76%,transparent); animation:introGridRise 3.4s cubic-bezier(.2,.7,.2,1) both; }
-.intro-ambient { position:absolute; width:min(60vw,720px); aspect-ratio:1; border-radius:50%; filter:blur(95px); opacity:.3; animation:introLightDrift 5s ease-in-out infinite alternate; }
-.intro-ambient-blue { top:-30%; left:-15%; background:radial-gradient(circle,#2368e8,transparent 68%); }
-.intro-ambient-orange { right:-24%; bottom:-45%; background:radial-gradient(circle,#e87532,transparent 68%); animation-delay:-2s; }
-.intro-orbit { position:absolute; width:min(76vw,740px); height:min(76vw,740px); border:1px solid rgba(152,190,255,.13); border-radius:50%; box-shadow:0 0 80px rgba(39,96,213,.08),inset 0 0 80px rgba(39,96,213,.06); animation:introOrbitIn 1.7s cubic-bezier(.16,1,.3,1) both; }
-.intro-orbit-one { transform:scale(.65) rotateX(68deg) rotateZ(-28deg); }
-.intro-orbit-two { width:min(58vw,560px); height:min(88vw,850px); transform:scale(.8) rotateY(62deg) rotateZ(38deg); border-color:rgba(245,137,67,.2); animation-delay:.18s; }
-.intro-content { position:relative; z-index:2; display:flex; align-items:center; flex-direction:column; text-align:center; padding:24px; }
-.intro-mark-wrap { position:relative; width:108px; height:108px; display:grid; place-items:center; margin-bottom:25px; opacity:0; transform:translateY(20px) scale(.6); animation:introMarkArrive .9s .2s cubic-bezier(.16,1,.3,1) forwards; }
-.intro-mark-halo { position:absolute; inset:0; border:1px solid rgba(226,237,255,.34); border-radius:28px; transform:rotate(45deg); box-shadow:0 0 32px rgba(48,112,255,.32),inset 0 0 28px rgba(48,112,255,.2); animation:introHaloPulse 2.6s .8s ease-in-out infinite; }
-.intro-mark { position:relative; z-index:1; width:76px; height:76px; object-fit:contain; filter:drop-shadow(0 6px 24px rgba(255,255,255,.28)); }
-.intro-overline { color:#a9c8ff; font-size:.7rem; font-weight:800; letter-spacing:.28em; opacity:0; animation:introTextIn .6s .6s ease forwards; }
-.intro-wordmark { margin:12px 0 2px; color:#fff; font-size:clamp(2.8rem,8vw,5.7rem); line-height:.95; letter-spacing:.13em; font-weight:800; opacity:0; transform:translateY(18px); animation:introTextIn .8s .72s cubic-bezier(.2,.7,.2,1) forwards; text-shadow:0 8px 45px rgba(87,142,255,.27); }
-.intro-wordmark span { color:#f27a3e; font-size:.36em; letter-spacing:.42em; vertical-align:middle; }
-.intro-tagline { margin:16px 0 0; color:rgba(240,245,255,.76); font-size:clamp(.88rem,2vw,1.08rem); letter-spacing:.08em; opacity:0; animation:introTextIn .65s 1.05s ease forwards; }
-.intro-skip { position:absolute; z-index:3; top:max(24px,env(safe-area-inset-top)); right:max(26px,env(safe-area-inset-right)); color:rgba(255,255,255,.76); border:1px solid rgba(255,255,255,.22); border-radius:999px; background:rgba(255,255,255,.06); padding:10px 15px; font:inherit; font-size:.78rem; font-weight:600; cursor:pointer; backdrop-filter:blur(12px); transition:background .2s,color .2s; }
-.intro-skip:hover,.intro-skip:focus-visible { color:#fff; background:rgba(255,255,255,.15); outline:2px solid #8fb5ff; outline-offset:3px; }
-.intro-skip span { color:#f27a3e; margin-left:5px; }
-.intro-bottom-note { position:absolute; z-index:1; bottom:max(22px,env(safe-area-inset-bottom)); left:0; right:0; text-align:center; font-size:.6rem; letter-spacing:.3em; color:rgba(255,255,255,.38); }
-@keyframes introFadeIn { from{opacity:0}to{opacity:1} }
-@keyframes introCurtainOut { 0%{opacity:1;transform:translate3d(0,0,0)} 68%{opacity:1} 100%{opacity:0;visibility:hidden;transform:translate3d(110%,0,0)} }
-@keyframes introMarkArrive { 0%{opacity:0;transform:translateY(20px) scale(.6) rotate(-18deg);filter:blur(8px)} 70%{opacity:1;transform:translateY(-4px) scale(1.06) rotate(3deg);filter:blur(0)} 100%{opacity:1;transform:translateY(0) scale(1) rotate(0)} }
-@keyframes introTextIn { to{opacity:1;transform:translateY(0)} }
-@keyframes introHaloPulse { 0%,100%{transform:rotate(45deg) scale(.96);opacity:.55} 50%{transform:rotate(45deg) scale(1.07);opacity:1} }
-@keyframes introOrbitIn { from{opacity:0;scale:.65}to{opacity:1;scale:1} }
-@keyframes introGridRise { from{translate:0 80px}to{translate:0 0} }
-@keyframes introLightDrift { from{transform:translate3d(-3%,2%,0) scale(.9)}to{transform:translate3d(4%,-3%,0) scale(1.12)} }
-@keyframes introLoadRun { 0%{transform:translateX(-110%);width:24%} 75%{transform:translateX(280%);width:40%} 100%{transform:translateX(430%);width:40%} }
-@media(max-width:600px) { .intro-mark-wrap{width:88px;height:88px}.intro-mark{width:64px;height:64px}.intro-orbit-one{width:95vw;height:95vw}.intro-orbit-two{width:75vw;height:115vw}.intro-skip{top:max(16px,env(safe-area-inset-top));right:max(16px,env(safe-area-inset-right))}.intro-bottom-note{font-size:.52rem;letter-spacing:.22em} }
-@media(prefers-reduced-motion:reduce) {
-  .startup-intro { display:grid!important; }
-  .startup-intro *, .startup-intro::after { animation:none!important; transition:none!important; }
-  .startup-intro.intro-finished { animation:introReduceOut .25s linear forwards!important; }
-  @keyframes introReduceOut { to { opacity:0; visibility:hidden; } }
-}
-
 /* Opening reveal inspired by the user's reference: clean white canvas, a brand-blue curtain, and a wordmark wipe. */
-.startup-intro { display:none; position:fixed; inset:0; z-index:99999; overflow:hidden; place-items:center; background:#fff; color:#173e82; opacity:1; }
+.startup-intro { display:none; position:fixed; inset:0; z-index:99999; overflow:hidden; isolation:isolate; place-items:center; background:#fff; color:#173e82; opacity:1; }
 html.intro-playing .startup-intro { display:grid; animation:none; }
 html.intro-pending .startup-intro { background:#fff; }
 body.intro-lock { overflow:hidden; }
+.startup-intro::before,.startup-intro::after { content:none!important; display:none!important; }
 .startup-intro.intro-finished { display:grid!important; pointer-events:none; will-change:transform; opacity:1; visibility:visible; transform:translateY(-100%); transition:transform .9s cubic-bezier(.76,0,.24,1); animation:none; }
 .intro-content { position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; text-align:center; padding:24px; color:#173e82; animation:introLockupSettle .7s 2.9s cubic-bezier(.76,0,.24,1) forwards; }
-.intro-mark-wrap { width:clamp(110px,20vw,168px); height:clamp(110px,20vw,168px); margin:0 auto 12px; display:grid; place-items:center; opacity:1; transform:none; animation:none; filter:none; }
+.intro-mark-wrap { position:relative; width:clamp(110px,20vw,168px); height:clamp(110px,20vw,168px); margin:0 auto 12px; display:grid; place-items:center; opacity:1; transform:none; animation:none; filter:none; }
 .intro-mark { display:block; width:100%; height:100%; object-fit:contain; filter:none!important; opacity:1!important; clip-path:inset(0 100% 0 0); animation:introLogoWipe .95s .75s cubic-bezier(.22,1,.36,1) forwards; }
 .intro-wordmark { margin:8px 0 0; color:#173e82; font-size:clamp(2.55rem,9vw,5.6rem); letter-spacing:.16em; line-height:.96; font-weight:800; clip-path:inset(0 100% 0 0); animation:introLogoWipe 1s .8s cubic-bezier(.22,1,.36,1) forwards; }
 .intro-rule { display:block; width:0; height:3px; margin:15px auto 13px; background:linear-gradient(90deg,#17478c 0 70%,#f47a3b 70% 100%); animation:introRuleGrow .7s 1.5s cubic-bezier(.76,0,.24,1) forwards; }
@@ -2889,6 +2848,7 @@ body.intro-lock { overflow:hidden; }
   .intro-skip { opacity:.7!important; }
   .intro-curtain { display:none; }
   .startup-intro.intro-finished { animation:introReduceOut .25s linear forwards!important; transform:none; transition:none; }
+  @keyframes introReduceOut { to { opacity:0; visibility:hidden; } }
 }
 /* Branded markers on the Telangana terrain basemap */
 .adwin-terrain-pin { background:transparent; border:0; }
