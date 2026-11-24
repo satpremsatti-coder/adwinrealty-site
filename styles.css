@@ -2705,3 +2705,41 @@ body { min-width: 320px; overflow-x: clip; }
 @media (prefers-reduced-motion: reduce) {
   .mobile-drawer, .mobile-toggle span { transition: none !important; }
 }
+
+/* Keep every CTA, icon action and filter control inside its layout cell */
+.btn, .agent-btn, .card-action-btn, .slider-arrow, .card-btn {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  text-align: center;
+}
+.btn { line-height: 1.25; padding-inline: clamp(12px, 2vw, 24px); }
+.btn svg { flex: 0 0 auto; }
+.btn > span, .agent-btn > span { min-width: 0; }
+.card-footer-action, .agent-actions, .inv-btn-row, .header-actions, .mobile-drawer-actions { min-width: 0; max-width: 100%; }
+.card-footer-action .btn, .card-footer-action .card-action-btn { width: 100%; }
+.agent-actions { flex-wrap: wrap; }
+.agent-actions .phone-btn { flex: 1 1 150px; min-width: 0; overflow-wrap: anywhere; }
+.agent-actions .mail-btn { flex: 0 0 42px; }
+.inv-btn-row { flex-wrap: wrap; }
+.inv-btn-row > .btn { flex: 1 1 150px; min-width: 0; }
+.mobile-drawer-actions > .btn { width: 100%; }
+.filter-actions-row, .filter-card-actions, .card-footer-action { min-width: 0; }
+.filter-actions-row > *, .filter-card-actions > * { min-width: 0; max-width: 100%; }
+.header-actions > *, .header-cta-stack > * { min-width: 0; }
+
+@media (max-width: 700px) {
+  .btn, .agent-btn, .card-action-btn { min-height: 44px; }
+  .btn { padding: 11px clamp(12px, 4vw, 20px); }
+  .btn-lg { padding: 13px 18px; }
+  .agent-actions .phone-btn { flex-basis: 0; }
+  .inv-btn-row > .btn { flex-basis: 100%; }
+  .card-footer-action .btn, .card-footer-action .card-action-btn { min-height: 46px; }
+}
+@media (max-width: 360px) {
+  .btn { gap: 6px; padding-inline: 10px; font-size: .875rem; }
+  .agent-actions .phone-btn { font-size: .75rem; padding-inline: 7px; }
+}
