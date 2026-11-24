@@ -1,11 +1,9 @@
 (() => {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // A short cinematic brand reveal, shown once per tab/session and always skippable.
+  // A short cinematic brand reveal on every page load, always skippable.
   const intro = document.getElementById('startupIntro');
-  let introSeen = false;
-  try { introSeen = sessionStorage.getItem('adwinIntroSeen') === '1'; } catch (_) {}
-  if (intro && !reduceMotion && !introSeen) {
+  if (intro && !reduceMotion) {
     document.documentElement.classList.add('intro-playing');
     document.body.classList.add('intro-lock');
     const skip = document.getElementById('introSkip');
@@ -13,7 +11,6 @@
     const finishIntro = () => {
       if (finished) return;
       finished = true;
-      try { sessionStorage.setItem('adwinIntroSeen', '1'); } catch (_) {}
       document.documentElement.classList.remove('intro-playing');
       document.body.classList.remove('intro-lock');
       intro.classList.add('intro-finished');
