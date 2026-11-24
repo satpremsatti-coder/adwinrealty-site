@@ -87,25 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
       amenities: ["Customised Villa Designs", "Close to the City, Inside ORR", "Near RGIA Airport", "Near Bharat Future City", "Near Gachibowli", "Nagarjuna Sagar Highway Access"]
     },
     {
-      id: 5,
-      title: "Luxury Flats — Hyderabad City",
-      location: "Across Hyderabad, Telangana",
-      type: "Flat",
-      priceInr: "On request",
-      priceUsd: "On request",
-      rawInr: 0,
-      rawUsd: 0,
-      area: "2 & 3 BHK",
-      floor: "Apartment",
-      beds: "2 & 3 BHK",
-      baths: "Ready to move",
-      image: "assets/property_5.jpg?v=20261124-2",
-      badge: "Luxury Flat",
-      badgeClass: "badge-blue",
-      description: "Adwin Realty markets luxury flats across Hyderabad — both ready-to-move homes and under-construction projects in HMDA and DTCP approved areas. Share the locality and configuration you are after and we will share matching options with current rates.",
-      amenities: ["Ready to Move Options", "HMDA & DTCP Approved Areas", "2 & 3 BHK Configurations", "New & Resale", "Hyderabad City", "Transparent Pricing"]
-    },
-    {
       id: 6,
       title: "Farm & Cottage Land — Sagar Corridor",
       location: "Nagarjuna Sagar Highway & RRR Corridor, Hyderabad",
@@ -130,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const howItWorksSteps = [
     {
       title: "Request & requirements",
-      desc: "Tell us what you are looking for — an open plot in the Sagar Highway corridor, a custom villa inside ORR or a flat in the city. We map your budget, preferred layout and timeline before suggesting a single option."
+      desc: "Tell us whether you are looking for an open plot in the Sagar Highway corridor or a custom villa inside the ORR. We map your budget, preferred layout and timeline before suggesting an option."
     },
     {
       title: "Property selection",
