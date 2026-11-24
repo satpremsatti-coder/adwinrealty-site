@@ -2828,3 +2828,37 @@ body.intro-lock { overflow:hidden; }
   .startup-intro.intro-finished { animation:introReduceOut .25s linear forwards!important; }
   @keyframes introReduceOut { to { opacity:0; visibility:hidden; } }
 }
+
+/* Opening reveal inspired by the user's reference: clean white canvas, a brand-blue curtain, and a wordmark wipe. */
+.startup-intro { display:none; position:fixed; inset:0; z-index:99999; overflow:hidden; place-items:center; background:#fff; color:#173e82; opacity:1; }
+html.intro-playing .startup-intro { display:grid; animation:none; }
+html.intro-pending .startup-intro { background:#fff; }
+body.intro-lock { overflow:hidden; }
+.startup-intro.intro-finished { display:grid!important; pointer-events:none; will-change:transform; opacity:1; visibility:visible; transform:translateY(-100%); transition:transform .9s cubic-bezier(.76,0,.24,1); animation:none; }
+.intro-content { position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; text-align:center; padding:24px; color:#173e82; animation:introLockupSettle .7s 2.9s cubic-bezier(.76,0,.24,1) forwards; }
+.intro-mark-wrap { width:clamp(90px,18vw,142px); height:clamp(90px,18vw,142px); margin:0 auto 12px; display:grid; place-items:center; }
+.intro-mark { display:block; width:100%; height:100%; object-fit:contain; clip-path:inset(0 100% 0 0); animation:introLogoWipe .95s .75s cubic-bezier(.22,1,.36,1) forwards; }
+.intro-wordmark { margin:8px 0 0; color:#173e82; font-size:clamp(2.55rem,9vw,5.6rem); letter-spacing:.16em; line-height:.96; font-weight:800; clip-path:inset(0 100% 0 0); animation:introLogoWipe 1s .8s cubic-bezier(.22,1,.36,1) forwards; }
+.intro-rule { display:block; width:0; height:3px; margin:15px auto 13px; background:linear-gradient(90deg,#17478c 0 70%,#f47a3b 70% 100%); animation:introRuleGrow .7s 1.5s cubic-bezier(.76,0,.24,1) forwards; }
+.intro-overline { color:#173e82; font-size:clamp(.68rem,2.2vw,.9rem); font-weight:800; letter-spacing:.8em; opacity:0; animation:introLetterReveal .9s 1.7s cubic-bezier(.22,1,.36,1) forwards; }
+.intro-tagline { margin:13px 0 0; color:#5d6a79; font-size:clamp(.82rem,2.2vw,1rem); letter-spacing:.12em; opacity:0; animation:introTagReveal .7s 1.95s ease forwards; }
+.intro-curtain { position:absolute; z-index:2; inset:0; background:#173f86; transform:scaleY(1); transform-origin:top; animation:introCurtainLift .82s .15s cubic-bezier(.76,0,.24,1) forwards; }
+.intro-skip { position:absolute; z-index:4; left:50%; bottom:max(24px,env(safe-area-inset-bottom)); transform:translateX(-50%); border:0; background:transparent; color:#173e82; padding:12px 18px; font:inherit; font-size:.7rem; font-weight:700; line-height:1.2; letter-spacing:.28em; text-transform:uppercase; cursor:pointer; opacity:0; animation:introSkipIn .5s 1.35s ease forwards; }
+.intro-skip:hover,.intro-skip:focus-visible { opacity:1; outline:2px solid #f47a3b; outline-offset:4px; }
+@keyframes introCurtainLift { to { transform:scaleY(0); } }
+@keyframes introLogoWipe { to { clip-path:inset(0 0 0 0); } }
+@keyframes introRuleGrow { to { width:min(78%,360px); } }
+@keyframes introLetterReveal { to { opacity:.78; letter-spacing:.34em; } }
+@keyframes introTagReveal { to { opacity:1; } }
+@keyframes introSkipIn { to { opacity:.58; } }
+@keyframes introLockupSettle { to { transform:scale(1.045); opacity:0; } }
+@media(max-width:600px) { .intro-mark-wrap { width:92px;height:92px; } .intro-wordmark { letter-spacing:.12em; } .intro-overline { letter-spacing:.45em; } }
+@media(prefers-reduced-motion:reduce) {
+  .startup-intro { display:grid!important; }
+  .intro-content,.intro-mark,.intro-wordmark,.intro-rule,.intro-overline,.intro-tagline,.intro-curtain,.intro-skip { animation:none!important; }
+  .intro-content,.intro-mark,.intro-wordmark,.intro-overline,.intro-tagline { opacity:1!important; clip-path:none!important; transform:none!important; }
+  .intro-mark,.intro-rule { width:auto; }
+  .intro-skip { opacity:.7!important; }
+  .intro-curtain { display:none; }
+  .startup-intro.intro-finished { animation:introReduceOut .25s linear forwards!important; transform:none; transition:none; }
+}

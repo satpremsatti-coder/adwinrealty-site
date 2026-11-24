@@ -5,32 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script>document.documentElement.classList.add('intro-pending');window.__adwinIntroFailSafe=setTimeout(()=>document.documentElement.classList.remove('intro-pending'),8000);</script>
   <meta name="theme-color" content="#07152c">
-  <style>html,body{background:#07152c}html.intro-pending,html.intro-pending body{background:#07152c!important;min-height:100%}html.intro-pending body>*:not(#startupIntro){visibility:hidden}html.intro-pending #startupIntro{display:grid!important;position:fixed;inset:0;z-index:99999;place-items:center;overflow:hidden;background:#07152c;color:#fff}</style>
+  <style>html,body{background:#fff}html.intro-pending,html.intro-pending body{background:#fff!important;min-height:100%}html.intro-pending body>*:not(#startupIntro){visibility:hidden}html.intro-pending #startupIntro{display:grid!important;position:fixed;inset:0;z-index:99999;place-items:center;overflow:hidden;background:#fff;color:#173e82}</style>
   <title>Adwin Realty — DTCP &amp; HMDA Approved Plots, Premium Plots &amp; Premium Villas in Hyderabad</title>
   <meta name="description" content="Adwin Realty markets HMDA &amp; DTCP-approved open plots and premium villas across Hyderabad. Sree Ananda Sai Nagar (Chintapalli, Nagarjuna Sagar Road) and Adwin Golden Meadows (Turkayamjal, inside ORR).">
   <link rel="icon" type="image/png" href="assets/brand-favicon.png?v=20261124-2">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20261124-14">
+  <link rel="stylesheet" href="styles.css?v=20261124-15">
 </head>
 <body>
 
   <!-- Lightweight, skippable brand intro; automatically bypassed for reduced-motion users -->
   <div class="startup-intro" id="startupIntro" aria-hidden="true">
-    <div class="intro-grid" aria-hidden="true"></div>
-    <div class="intro-ambient intro-ambient-blue" aria-hidden="true"></div>
-    <div class="intro-ambient intro-ambient-orange" aria-hidden="true"></div>
-    <div class="intro-orbit intro-orbit-one" aria-hidden="true"></div>
-    <div class="intro-orbit intro-orbit-two" aria-hidden="true"></div>
     <div class="intro-content">
-      <div class="intro-mark-wrap"><span class="intro-mark-halo"></span><img class="intro-mark" src="assets/brand-emblem.png?v=20261124-2" alt=""></div>
-      <span class="intro-overline">HYDERABAD · TELANGANA</span>
-      <h1 class="intro-wordmark">ADWIN <span>REALTY</span></h1>
-      <p class="intro-tagline">Find your ground. Build your future.</p>
+      <div class="intro-mark-wrap"><img class="intro-mark" src="assets/brand-emblem.png?v=20261124-2" alt=""></div>
+      <h1 class="intro-wordmark">ADWIN</h1>
+      <span class="intro-rule" aria-hidden="true"></span>
+      <span class="intro-overline">REALTY · HYDERABAD</span>
+      <p class="intro-tagline">Land · Homes · Opportunity</p>
     </div>
-    <button class="intro-skip" id="introSkip" type="button" aria-label="Skip intro animation">Skip intro <span aria-hidden="true">↗</span></button>
-    <span class="intro-bottom-note" aria-hidden="true">LAND · HOMES · OPPORTUNITY</span>
+    <div class="intro-curtain" aria-hidden="true"></div>
+    <button class="intro-skip" id="introSkip" type="button" aria-label="Skip intro animation">Skip</button>
   </div>
 
   <!-- Toast Notification Container -->
@@ -1058,6 +1054,6 @@
 
   <!-- Scripts -->
   <script src="assets/app.js?v=20261124-4"></script>
-  <script src="assets/motion.js?v=20261124-4"></script>
+  <script src="assets/motion.js?v=20261124-5"></script>
 </body>
 </html>

@@ -16,13 +16,14 @@
       document.documentElement.classList.remove('intro-playing');
       document.body.classList.remove('intro-lock');
       intro.classList.add('intro-finished');
-      window.setTimeout(() => intro.remove(), 650);
+      window.setTimeout(() => intro.remove(), 1000);
       document.removeEventListener('keydown', onIntroKey);
     };
-    const onIntroKey = (event) => { if (event.key === 'Escape') finishIntro(); };
+    const onIntroKey = (event) => { if (event.key === 'Escape' || event.key === ' ') finishIntro(); };
     skip?.addEventListener('click', finishIntro);
+    intro.addEventListener('click', finishIntro);
     document.addEventListener('keydown', onIntroKey);
-    window.setTimeout(finishIntro, reduceMotion ? 1500 : 3300);
+    window.setTimeout(finishIntro, reduceMotion ? 1500 : 3600);
   } else if (intro) {
     intro.remove();
   }
