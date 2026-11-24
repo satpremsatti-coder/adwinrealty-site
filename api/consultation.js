@@ -139,24 +139,37 @@ async function sendViaMeta({ toDigits, lead, messageText, env = process.env, fet
 
   let payload;
   if (templateName) {
-    const parameters =
-      paramMode === '1' || paramMode === 'summary'
-        ? [
-            {
-              type: 'text',
-              text: cleanTemplateParam(
-                `${lead.name} | ${lead.phone} | ${lead.email} | ${lead.project}${lead.notes ? ' | ' + lead.notes : ''}`,
-                1000
-              )
-            }
-          ]
-        : [
-            { type: 'text', text: cleanTemplateParam(lead.name, 120) },
-            { type: 'text', text: cleanTemplateParam(lead.phone, 30) },
-            { type: 'text', text: cleanTemplateParam(lead.email, 160) },
-            { type: 'text', text: cleanTemplateParam(lead.project, 140) },
-            { type: 'text', text: cleanTemplateParam(lead.notes || 'None provided', 500) }
-          ];
+    let parameters = null;
+    if (paramMode === '0' || paramMode === 'none') {
+      parameters = null;
+    } else if (paramMode === '1' || paramMode === 'summary') {
+      parameters = [
+        {
+          type: 'text',
+          text: cleanTemplateParam(
+            `${lead.name} | ${lead.phone} | ${lead.email} | ${lead.project}${lead.notes ? ' | ' + lead.notes : ''}`,
+            1000
+          )
+        }
+      ];
+    } else if (paramMode === '6') {
+      parameters = [
+        { type: 'text', text: cleanTemplateParam(lead.name, 120) },
+        { type: 'text', text: cleanTemplateParam(lead.phone, 30) },
+        { type: 'text', text: cleanTemplateParam(lead.email, 160) },
+        { type: 'text', text: cleanTemplateParam(lead.project, 140) },
+        { type: 'text', text: cleanTemplateParam(lead.notes || 'None provided', 500) },
+        { type: 'text', text: cleanTemplateParam(lead.source || 'Website', 120) }
+      ];
+    } else {
+      parameters = [
+        { type: 'text', text: cleanTemplateParam(lead.name, 120) },
+        { type: 'text', text: cleanTemplateParam(lead.phone, 30) },
+        { type: 'text', text: cleanTemplateParam(lead.email, 160) },
+        { type: 'text', text: cleanTemplateParam(lead.project, 140) },
+        { type: 'text', text: cleanTemplateParam(lead.notes || 'None provided', 500) }
+      ];
+    }
 
     payload = {
       messaging_product: 'whatsapp',
@@ -166,7 +179,7 @@ async function sendViaMeta({ toDigits, lead, messageText, env = process.env, fet
       template: {
         name: templateName,
         language: { code: templateLang },
-        components: [{ type: 'body', parameters }]
+        ...(parameters ? { components: [{ type: 'body', parameters }] } : {})
       }
     };
   } else {
