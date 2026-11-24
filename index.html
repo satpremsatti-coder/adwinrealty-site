@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20261124-31">
+  <link rel="stylesheet" href="styles.css?v=20261124-32">
 </head>
 <body>
 
@@ -436,13 +436,13 @@
           <a class="adwin-map-all-link" href="https://www.google.com/maps/search/?api=1&query=Adwin%20Realty%20Hyderabad" target="_blank" rel="noopener noreferrer">Open Google Maps <span aria-hidden="true">↗</span></a>
         </div>
         <div class="adwin-map-layout">
-          <div class="adwin-map-art adwin-map-live adwin-map-illustration" aria-label="Telangana map with Adwin Realty project locations marked">
+          <div class="adwin-map-art adwin-map-live adwin-map-illustration" id="telanganaMapViewport" aria-label="Telangana map with Adwin Realty project locations marked">
             <div class="telangana-map-stage" id="telanganaMapStage">
               <img src="assets/telangana-map-projects.jpeg" alt="Illustrated map of Telangana" class="telangana-map-image">
               <span class="illustration-pin pin-golden" aria-hidden="true"></span><span class="illustration-label label-golden">Adwin Golden Meadows<small>Brahmanapally · Turkayamjal</small></span>
               <span class="illustration-pin pin-ananda" aria-hidden="true"></span><span class="illustration-label label-ananda">Sree Ananda Sai Nagar<small>Chintapalli · Nagarjuna Sagar Road</small></span>
             </div>
-            <div class="map-zoom-controls" aria-label="Map zoom controls"><button type="button" id="mapZoomIn" aria-label="Zoom in">+</button><button type="button" id="mapZoomOut" aria-label="Zoom out">−</button><button type="button" id="mapZoomReset" aria-label="Reset map zoom">↺</button></div>
+            <div class="map-zoom-controls" aria-label="Map zoom controls"><button type="button" id="mapZoomIn" aria-label="Zoom in" title="Zoom in">+</button><button type="button" id="mapZoomOut" aria-label="Zoom out" title="Zoom out">−</button><button type="button" id="mapZoomReset" aria-label="Reset map zoom" title="Reset zoom">↺</button><button type="button" id="mapFullViewBtn" aria-label="View full Telangana map image" title="View full map">⤢</button></div>
             <span class="map-art-caption">Telangana · Regional location indicators</span>
           </div>
           <div class="adwin-map-places">
@@ -1060,11 +1060,30 @@
     </div>
   </div>
 
-  <script>
-    (function(){const stage=document.getElementById('telanganaMapStage');if(!stage)return;let zoom=1;function setZoom(v){zoom=Math.max(1,Math.min(2.4,v));stage.style.transform='scale('+zoom+')'}document.getElementById('mapZoomIn').addEventListener('click',()=>setZoom(zoom+.2));document.getElementById('mapZoomOut').addEventListener('click',()=>setZoom(zoom-.2));document.getElementById('mapZoomReset').addEventListener('click',()=>setZoom(1));})();
-  </script>
+  <!-- 5. Full Telangana Map Image Modal -->
+  <div class="modal-backdrop" id="telanganaMapModal" role="dialog" aria-modal="true" aria-labelledby="telanganaMapModalTitle" aria-hidden="true">
+    <div class="modal-card modal-card-wide map-modal-card">
+      <button class="modal-close-btn" id="closeTelanganaMapModal" aria-label="Close full map">×</button>
+      <div class="map-modal-body">
+        <div class="map-modal-header">
+          <h3 class="modal-title" id="telanganaMapModalTitle">Telangana Project Locations</h3>
+          <p class="modal-sub">Full Telangana map showing Adwin Golden Meadows &amp; Sree Ananda Sai Nagar</p>
+        </div>
+        <div class="map-modal-viewport" id="modalMapViewport">
+          <div class="telangana-map-stage" id="modalTelanganaMapStage">
+            <img src="assets/telangana-map-projects.jpeg" alt="Full illustrated map of Telangana" class="telangana-map-image">
+            <span class="illustration-pin pin-golden" aria-hidden="true"></span><span class="illustration-label label-golden">Adwin Golden Meadows<small>Brahmanapally · Turkayamjal</small></span>
+            <span class="illustration-pin pin-ananda" aria-hidden="true"></span><span class="illustration-label label-ananda">Sree Ananda Sai Nagar<small>Chintapalli · Nagarjuna Sagar Road</small></span>
+          </div>
+          <div class="map-zoom-controls" aria-label="Full map zoom controls"><button type="button" id="modalMapZoomIn" aria-label="Zoom in full map" title="Zoom in">+</button><button type="button" id="modalMapZoomOut" aria-label="Zoom out full map" title="Zoom out">−</button><button type="button" id="modalMapZoomReset" aria-label="Reset full map zoom" title="Reset zoom">↺</button></div>
+        </div>
+        <p class="map-modal-hint">Use + / − to zoom and drag to inspect regions.</p>
+      </div>
+    </div>
+  </div>
+
   <!-- Scripts -->
-  <script src="assets/app.js?v=20261124-6"></script>
+  <script src="assets/app.js?v=20261124-7"></script>
   <script src="assets/motion.js?v=20261124-6"></script>
 </body>
 </html>

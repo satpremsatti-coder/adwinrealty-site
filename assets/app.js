@@ -388,6 +388,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const postPropModal = document.getElementById('postPropModal');
   const propDetailModal = document.getElementById('propDetailModal');
   const floorplanModal = document.getElementById('floorplanModal');
+  const telanganaMapModal = document.getElementById('telanganaMapModal');
 
   function openModal(modal) {
     if (!modal) return;
@@ -538,6 +539,123 @@ document.addEventListener('DOMContentLoaded', () => {
   const floorplanCard = document.getElementById('floorplanCard');
   if (floorplanCard) {
     floorplanCard.addEventListener('click', () => openModal(floorplanModal));
+  }
+
+  // Telangana map zoom, pan & full-view modal
+  function setupZoomableMapStage({ viewport, stage, zoomInBtn, zoomOutBtn, resetBtn, onClickUnzoomed }) {
+    if (!viewport || !stage) return { reset: () => {} };
+    let zoom = 1;
+    let panX = 0;
+    let panY = 0;
+    let dragging = false;
+    let startX = 0;
+    let startY = 0;
+    let originPanX = 0;
+    let originPanY = 0;
+    let moved = false;
+
+    function clampPan() {
+      const maxX = Math.max(0, (viewport.clientWidth * (zoom - 1)) / 2);
+      const maxY = Math.max(0, (viewport.clientHeight * (zoom - 1)) / 2);
+      panX = Math.max(-maxX, Math.min(maxX, panX));
+      panY = Math.max(-maxY, Math.min(maxY, panY));
+    }
+
+    function render() {
+      clampPan();
+      viewport.classList.toggle('is-zoomed', zoom > 1);
+      stage.style.transform = `translate3d(${panX}px, ${panY}px, 0) scale(${zoom})`;
+    }
+
+    function setZoom(nextZoom) {
+      zoom = Math.round(Math.max(1, Math.min(2.4, nextZoom)) * 100) / 100;
+      if (zoom === 1) {
+        panX = 0;
+        panY = 0;
+      }
+      render();
+    }
+
+    if (zoomInBtn) zoomInBtn.addEventListener('click', () => setZoom(zoom + 0.2));
+    if (zoomOutBtn) zoomOutBtn.addEventListener('click', () => setZoom(zoom - 0.2));
+    if (resetBtn) resetBtn.addEventListener('click', () => setZoom(1));
+
+    viewport.addEventListener('pointerdown', (e) => {
+      if (e.target.closest('.map-zoom-controls')) return;
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      dragging = true;
+      moved = false;
+      startX = e.clientX;
+      startY = e.clientY;
+      originPanX = panX;
+      originPanY = panY;
+      if (zoom > 1) {
+        viewport.classList.add('is-dragging');
+        stage.classList.add('is-dragging');
+        try { viewport.setPointerCapture(e.pointerId); } catch {}
+      }
+    });
+
+    viewport.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      if (Math.hypot(dx, dy) > 5) moved = true;
+      if (zoom <= 1) return;
+      panX = originPanX + dx;
+      panY = originPanY + dy;
+      render();
+    });
+
+    function endPointer(e) {
+      if (!dragging) return;
+      const wasTap = !moved;
+      dragging = false;
+      viewport.classList.remove('is-dragging');
+      stage.classList.remove('is-dragging');
+      if (e && e.pointerId !== undefined) {
+        try {
+          if (viewport.hasPointerCapture(e.pointerId)) viewport.releasePointerCapture(e.pointerId);
+        } catch {}
+      }
+      if (wasTap && zoom === 1 && typeof onClickUnzoomed === 'function' && !e.target.closest('.map-zoom-controls')) {
+        onClickUnzoomed();
+      }
+    }
+
+    viewport.addEventListener('pointerup', endPointer);
+    viewport.addEventListener('pointercancel', endPointer);
+
+    return {
+      reset: () => setZoom(1)
+    };
+  }
+
+  const modalMapControls = setupZoomableMapStage({
+    viewport: document.getElementById('modalMapViewport'),
+    stage: document.getElementById('modalTelanganaMapStage'),
+    zoomInBtn: document.getElementById('modalMapZoomIn'),
+    zoomOutBtn: document.getElementById('modalMapZoomOut'),
+    resetBtn: document.getElementById('modalMapZoomReset')
+  });
+
+  function openFullTelanganaMap() {
+    modalMapControls.reset();
+    openModal(telanganaMapModal);
+  }
+
+  setupZoomableMapStage({
+    viewport: document.getElementById('telanganaMapViewport'),
+    stage: document.getElementById('telanganaMapStage'),
+    zoomInBtn: document.getElementById('mapZoomIn'),
+    zoomOutBtn: document.getElementById('mapZoomOut'),
+    resetBtn: document.getElementById('mapZoomReset'),
+    onClickUnzoomed: openFullTelanganaMap
+  });
+
+  const mapFullViewBtn = document.getElementById('mapFullViewBtn');
+  if (mapFullViewBtn) {
+    mapFullViewBtn.addEventListener('click', openFullTelanganaMap);
   }
 
   // Quick View Details
