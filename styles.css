@@ -2824,4 +2824,9 @@ body.intro-lock { overflow:hidden; }
 @keyframes introLightDrift { from{transform:translate3d(-3%,2%,0) scale(.9)}to{transform:translate3d(4%,-3%,0) scale(1.12)} }
 @keyframes introLoadRun { 0%{transform:translateX(-110%);width:24%} 75%{transform:translateX(280%);width:40%} 100%{transform:translateX(430%);width:40%} }
 @media(max-width:600px) { .intro-mark-wrap{width:88px;height:88px}.intro-mark{width:64px;height:64px}.intro-orbit-one{width:95vw;height:95vw}.intro-orbit-two{width:75vw;height:115vw}.intro-skip{top:max(16px,env(safe-area-inset-top));right:max(16px,env(safe-area-inset-right))}.intro-bottom-note{font-size:.52rem;letter-spacing:.22em} }
-@media(prefers-reduced-motion:reduce) { .startup-intro{display:none!important} }
+@media(prefers-reduced-motion:reduce) {
+  .startup-intro { display:grid!important; }
+  .startup-intro *, .startup-intro::after { animation:none!important; transition:none!important; }
+  .startup-intro.intro-finished { animation:introReduceOut .25s linear forwards!important; }
+  @keyframes introReduceOut { to { opacity:0; visibility:hidden; } }
+}

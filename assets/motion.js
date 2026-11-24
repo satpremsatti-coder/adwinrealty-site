@@ -3,7 +3,7 @@
 
   // A short cinematic brand reveal on every page load, always skippable.
   const intro = document.getElementById('startupIntro');
-  if (intro && !reduceMotion) {
+  if (intro) {
     document.documentElement.classList.add('intro-playing');
     document.body.classList.add('intro-lock');
     const skip = document.getElementById('introSkip');
@@ -20,7 +20,7 @@
     const onIntroKey = (event) => { if (event.key === 'Escape') finishIntro(); };
     skip?.addEventListener('click', finishIntro);
     document.addEventListener('keydown', onIntroKey);
-    window.setTimeout(finishIntro, 3300);
+    window.setTimeout(finishIntro, reduceMotion ? 1500 : 3300);
   } else if (intro) {
     intro.remove();
   }
