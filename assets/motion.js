@@ -1,5 +1,33 @@
 (() => {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // A short cinematic brand reveal, shown once per tab/session and always skippable.
+  const intro = document.getElementById('startupIntro');
+  let introSeen = false;
+  try { introSeen = sessionStorage.getItem('adwinIntroSeen') === '1'; } catch (_) {}
+  if (intro && !reduceMotion && !introSeen) {
+    document.documentElement.classList.add('intro-playing');
+    document.body.classList.add('intro-lock');
+    const skip = document.getElementById('introSkip');
+    let finished = false;
+    const finishIntro = () => {
+      if (finished) return;
+      finished = true;
+      try { sessionStorage.setItem('adwinIntroSeen', '1'); } catch (_) {}
+      document.documentElement.classList.remove('intro-playing');
+      document.body.classList.remove('intro-lock');
+      intro.classList.add('intro-finished');
+      window.setTimeout(() => intro.remove(), 650);
+      document.removeEventListener('keydown', onIntroKey);
+    };
+    const onIntroKey = (event) => { if (event.key === 'Escape') finishIntro(); };
+    skip?.addEventListener('click', finishIntro);
+    document.addEventListener('keydown', onIntroKey);
+    window.setTimeout(finishIntro, 3300);
+  } else if (intro) {
+    intro.remove();
+  }
+
   if (reduceMotion) return;
 
   const groups = [

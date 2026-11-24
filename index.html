@@ -9,9 +9,27 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20261124-10">
+  <link rel="stylesheet" href="styles.css?v=20261124-11">
 </head>
 <body>
+
+  <!-- Lightweight, skippable brand intro; automatically bypassed for reduced-motion users -->
+  <div class="startup-intro" id="startupIntro" aria-hidden="true">
+    <div class="intro-grid" aria-hidden="true"></div>
+    <div class="intro-ambient intro-ambient-blue" aria-hidden="true"></div>
+    <div class="intro-ambient intro-ambient-orange" aria-hidden="true"></div>
+    <div class="intro-orbit intro-orbit-one" aria-hidden="true"></div>
+    <div class="intro-orbit intro-orbit-two" aria-hidden="true"></div>
+    <div class="intro-content">
+      <div class="intro-mark-wrap"><span class="intro-mark-halo"></span><img class="intro-mark" src="assets/brand-emblem.png?v=20261124-2" alt=""></div>
+      <span class="intro-overline">HYDERABAD · TELANGANA</span>
+      <h1 class="intro-wordmark">ADWIN <span>REALTY</span></h1>
+      <p class="intro-tagline">Find your ground. Build your future.</p>
+      <div class="intro-loader" aria-hidden="true"><span></span></div>
+    </div>
+    <button class="intro-skip" id="introSkip" type="button" aria-label="Skip intro animation">Skip intro <span aria-hidden="true">↗</span></button>
+    <span class="intro-bottom-note" aria-hidden="true">LAND · HOMES · OPPORTUNITY</span>
+  </div>
 
   <!-- Toast Notification Container -->
   <div id="toast" class="toast" role="alert" aria-live="polite"></div>
@@ -1038,6 +1056,6 @@
 
   <!-- Scripts -->
   <script src="assets/app.js?v=20261124-4"></script>
-  <script src="assets/motion.js?v=20261124-1"></script>
+  <script src="assets/motion.js?v=20261124-2"></script>
 </body>
 </html>
