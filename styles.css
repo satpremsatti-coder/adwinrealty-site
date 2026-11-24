@@ -2781,3 +2781,4 @@ body { min-width: 320px; overflow-x: clip; }
 @media(max-width:820px) { .adwin-map-layout { grid-template-columns:1fr; } .adwin-map-art { min-height:390px; } .adwin-map-places { padding:20px; } }
 @media(max-width:560px) { .adwin-map-heading { align-items:flex-start; flex-direction:column; gap:14px; } .adwin-map-heading p { max-width:38ch; } .adwin-map-art { min-height:320px; } .telangana-map-svg { width:100%; } .adwin-map-place { grid-template-columns:28px minmax(0,1fr) 36px; gap:8px; padding:15px 10px; } .adwin-map-place h3 { font-size:.94rem; } }
 @media(prefers-reduced-motion:reduce) { .marker-pulse { animation:none; opacity:.35; transform:none; } .adwin-map-place { transition:none; } }
+.telangana-face-img { opacity:.97; }
