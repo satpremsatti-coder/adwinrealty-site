@@ -5,27 +5,39 @@
   const intro = document.getElementById('startupIntro');
   if (intro) {
     clearTimeout(window.__adwinIntroFailSafe);
+    const scrollbarWidth = Math.max(0, window.innerWidth - document.documentElement.clientWidth);
+    if (scrollbarWidth > 0) {
+      document.documentElement.style.setProperty('--intro-sbw', `${scrollbarWidth}px`);
+    }
     document.documentElement.classList.add('intro-playing');
     document.documentElement.classList.remove('intro-pending');
     document.body.classList.add('intro-lock');
     const skip = document.getElementById('introSkip');
     let finished = false;
+    let cleaned = false;
+    const cleanupIntro = () => {
+      if (cleaned) return;
+      cleaned = true;
+      intro.remove();
+      document.documentElement.classList.remove('intro-playing');
+      document.body.classList.remove('intro-lock');
+      document.documentElement.style.removeProperty('--intro-sbw');
+    };
     const finishIntro = () => {
       if (finished) return;
       finished = true;
-      document.documentElement.classList.remove('intro-playing');
-      document.body.classList.remove('intro-lock');
-      intro.classList.add('intro-finished');
-      window.setTimeout(() => intro.remove(), 1000);
       document.removeEventListener('keydown', onIntroKey);
+      intro.addEventListener('transitionend', (event) => {
+        if (event.target === intro && event.propertyName === 'transform') cleanupIntro();
+      });
+      intro.classList.add('intro-finished');
+      window.setTimeout(cleanupIntro, reduceMotion ? 320 : 1000);
     };
     const onIntroKey = (event) => { if (event.key === 'Escape' || event.key === ' ') finishIntro(); };
     skip?.addEventListener('click', finishIntro);
     intro.addEventListener('click', finishIntro);
     document.addEventListener('keydown', onIntroKey);
     window.setTimeout(finishIntro, reduceMotion ? 1500 : 3600);
-  } else if (intro) {
-    intro.remove();
   }
 
   if (reduceMotion) return;
