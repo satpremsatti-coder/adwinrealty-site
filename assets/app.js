@@ -423,16 +423,96 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  const consultForm = document.getElementById('consultForm');
+  const consultFormStatus = document.getElementById('consultFormStatus');
+  const consultSubmitBtn = document.getElementById('consultSubmitBtn');
+  const consultFallbackBox = document.getElementById('consultFallbackBox');
+  const consultFallbackTitle = document.getElementById('consultFallbackTitle');
+  const consultFallbackDesc = document.getElementById('consultFallbackDesc');
+  const consultWaLink = document.getElementById('consultWaLink');
+  const consultBackBtn = document.getElementById('consultBackBtn');
+  let consultSource = 'Website Consultation Modal';
+
+  function resetConsultModalState() {
+    if (consultForm) consultForm.hidden = false;
+    if (consultFallbackBox) consultFallbackBox.hidden = true;
+    if (consultFormStatus) {
+      consultFormStatus.hidden = true;
+      consultFormStatus.textContent = '';
+    }
+    if (consultSubmitBtn) {
+      consultSubmitBtn.disabled = false;
+      consultSubmitBtn.textContent = 'Submit Request';
+    }
+  }
+
+  function selectConsultPref(label) {
+    const pref = document.getElementById('consultPref');
+    if (!pref || !label) return;
+    const normalized = label.trim().toLowerCase();
+    const aliasMap = {
+      'dtcp & hmda open plots': 'hmda & dtcp open plots'
+    };
+    const target = aliasMap[normalized] || normalized;
+    const match = Array.from(pref.options).find(o => o.textContent.trim().toLowerCase() === target);
+    if (match) pref.value = match.value;
+  }
+
+  function buildLocalWhatsappUrl(payload) {
+    const lines = [
+      '*New Adwin Realty Consultation Request*',
+      `Name: ${payload.name}`,
+      `Phone: ${payload.phone}`,
+      `Email: ${payload.email}`,
+      `Project / Interest: ${payload.project}`,
+      payload.source ? `Source: ${payload.source}` : null,
+      `Notes: ${payload.notes || 'None provided'}`
+    ].filter(Boolean);
+    return `https://wa.me/918686878887?text=${encodeURIComponent(lines.join('\n'))}`;
+  }
+
+  function showConsultFallback(whatsappUrl, titleText, descText) {
+    if (consultForm) consultForm.hidden = true;
+    if (consultFallbackTitle) consultFallbackTitle.textContent = titleText;
+    if (consultFallbackDesc) consultFallbackDesc.textContent = descText;
+    if (consultWaLink) consultWaLink.href = whatsappUrl;
+    if (consultFallbackBox) consultFallbackBox.hidden = false;
+  }
+
+  if (consultBackBtn) {
+    consultBackBtn.addEventListener('click', () => {
+      if (consultForm) consultForm.hidden = false;
+      if (consultFallbackBox) consultFallbackBox.hidden = true;
+    });
+  }
+
+  if (consultWaLink) {
+    consultWaLink.addEventListener('click', () => {
+      setTimeout(() => {
+        if (consultForm) consultForm.reset();
+        resetConsultModalState();
+        closeModal(consultModal);
+        showToast('Opening WhatsApp to send your consultation request to +91 8686878887.');
+      }, 150);
+    });
+  }
+
   // Open Consult Modal triggers
-  const consultTriggers = [
-    document.getElementById('openBookCallHeader'),
-    document.getElementById('heroBookCallBtn'),
-    document.getElementById('hwConsultBtn'),
-    document.getElementById('ctaConsultBtn'),
-    document.getElementById('mBookCallBtn')
+  const consultTriggerSources = [
+    [document.getElementById('openBookCallHeader'), 'Header: Book a call'],
+    [document.getElementById('heroBookCallBtn'), 'Hero: Book a call'],
+    [document.getElementById('hwConsultBtn'), 'How It Works: Get consultation'],
+    [document.getElementById('ctaConsultBtn'), 'CTA Banner: Get consultation'],
+    [document.getElementById('mBookCallBtn'), 'Mobile Menu: Book a call']
   ];
-  consultTriggers.forEach(btn => {
-    if (btn) btn.addEventListener('click', () => openModal(consultModal));
+  consultTriggerSources.forEach(([btn, label]) => {
+    if (btn) {
+      btn.addEventListener('click', () => {
+        consultSource = label;
+        resetConsultModalState();
+        openModal(consultModal);
+      });
+    }
   });
 
   // Post Property Triggers
@@ -491,12 +571,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (scheduleBtn) {
           scheduleBtn.addEventListener('click', () => {
             closeModal(propDetailModal);
+            consultSource = `Property Quick View: ${prop.title}`;
+            resetConsultModalState();
             openModal(consultModal);
-            const pref = document.getElementById('consultPref');
-            if (pref) {
-              const match = Array.from(pref.options).find(o => o.textContent.trim() === prop.title.split(' — ')[0]);
-              if (match) pref.value = match.value;
-            }
+            selectConsultPref(prop.title.split(' — ')[0]);
           });
         }
       }
@@ -509,7 +587,10 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.open-contact-agent').forEach(btn => {
     btn.addEventListener('click', () => {
       const service = btn.dataset.agent;
+      consultSource = `Service Card: ${service}`;
+      resetConsultModalState();
       openModal(consultModal);
+      selectConsultPref(service);
       showToast(`Enquiring about ${service}`);
     });
   });
@@ -518,12 +599,10 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.book-invest-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const title = btn.dataset.title;
+      consultSource = `Featured Project: ${title}`;
+      resetConsultModalState();
       openModal(consultModal);
-      const pref = document.getElementById('consultPref');
-      if (pref) {
-        const match = Array.from(pref.options).find(o => o.textContent.trim() === title);
-        if (match) pref.value = match.value;
-      }
+      selectConsultPref(title);
       showToast(`Booking inquiry for ${title}`);
     });
   });
@@ -539,13 +618,73 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
   // 7. FORM SUBMISSIONS
   // ==========================================
-  const consultForm = document.getElementById('consultForm');
   if (consultForm) {
-    consultForm.addEventListener('submit', (e) => {
+    consultForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      closeModal(consultModal);
-      showToast('Thank you! An Adwin Realty advisor will call you shortly.');
-      consultForm.reset();
+      if (consultFormStatus) {
+        consultFormStatus.hidden = true;
+        consultFormStatus.textContent = '';
+      }
+
+      const payload = {
+        name: (document.getElementById('consultName')?.value || '').trim(),
+        phone: (document.getElementById('consultPhone')?.value || '').trim(),
+        email: (document.getElementById('consultEmail')?.value || '').trim(),
+        project: (document.getElementById('consultPref')?.value || 'General Consultation').trim(),
+        notes: (document.getElementById('consultMsg')?.value || '').trim(),
+        source: consultSource
+      };
+
+      if (consultSubmitBtn) {
+        consultSubmitBtn.disabled = true;
+        consultSubmitBtn.textContent = 'Sending request...';
+      }
+
+      try {
+        const response = await fetch('/api/consultation', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await response.json().catch(() => null);
+
+        if (response.status === 400 && data && data.error) {
+          if (consultFormStatus) {
+            consultFormStatus.textContent = data.error;
+            consultFormStatus.hidden = false;
+          }
+          return;
+        }
+
+        if (response.ok && data && data.delivered) {
+          closeModal(consultModal);
+          consultForm.reset();
+          resetConsultModalState();
+          showToast('Thank you! Your consultation booking has been sent to Adwin Realty on WhatsApp.');
+          return;
+        }
+
+        const fallbackUrl = (data && data.whatsappUrl) || buildLocalWhatsappUrl(payload);
+        const title = data && data.configured
+          ? 'Send via WhatsApp (+91 8686878887)'
+          : 'Tap below to send on WhatsApp';
+        const desc = data && data.configured
+          ? 'Automatic WhatsApp delivery experienced a temporary delay. Tap below to send your pre-filled consultation directly to +91 8686878887.'
+          : 'Your consultation details are ready. Tap below to send them straight to +91 8686878887 on WhatsApp (until automatic WhatsApp API credentials are connected).';
+
+        showConsultFallback(fallbackUrl, title, desc);
+      } catch {
+        showConsultFallback(
+          buildLocalWhatsappUrl(payload),
+          'Send via WhatsApp (+91 8686878887)',
+          'Tap below to send your pre-filled consultation details directly to +91 8686878887 on WhatsApp.'
+        );
+      } finally {
+        if (consultSubmitBtn) {
+          consultSubmitBtn.disabled = false;
+          consultSubmitBtn.textContent = 'Submit Request';
+        }
+      }
     });
   }
 
