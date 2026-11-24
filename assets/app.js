@@ -578,18 +578,37 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Mobile Drawer Toggle
+  // Accessible responsive navigation drawer
   const mobileToggle = document.getElementById('mobileToggle');
   const mobileDrawer = document.getElementById('mobileDrawer');
+  const siteHeader = document.getElementById('siteHeader');
   if (mobileToggle && mobileDrawer) {
+    const setMobileMenu = (open, restoreFocus = false) => {
+      mobileDrawer.classList.toggle('open', open);
+      mobileToggle.setAttribute('aria-expanded', String(open));
+      mobileToggle.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+      if (restoreFocus) mobileToggle.focus();
+    };
+
     mobileToggle.addEventListener('click', () => {
-      mobileDrawer.classList.toggle('open');
+      setMobileMenu(!mobileDrawer.classList.contains('open'));
     });
-    document.querySelectorAll('.mobile-link').forEach(link => {
-      link.addEventListener('click', () => {
-        mobileDrawer.classList.remove('open');
-      });
+    mobileDrawer.querySelectorAll('a, button').forEach(control => {
+      control.addEventListener('click', () => setMobileMenu(false));
     });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && mobileDrawer.classList.contains('open')) {
+        setMobileMenu(false, true);
+      }
+    });
+    document.addEventListener('pointerdown', event => {
+      if (mobileDrawer.classList.contains('open') && siteHeader && !siteHeader.contains(event.target)) {
+        setMobileMenu(false);
+      }
+    });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 980 && mobileDrawer.classList.contains('open')) setMobileMenu(false);
+    }, { passive: true });
   }
 
   // Privacy & Terms link triggers
