@@ -12,14 +12,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20261124-18">
+  <link rel="stylesheet" href="styles.css?v=20261124-26">
 </head>
 <body>
 
   <!-- Lightweight, skippable brand intro; automatically bypassed for reduced-motion users -->
   <div class="startup-intro" id="startupIntro" aria-hidden="true">
     <div class="intro-content">
-      <div class="intro-mark-wrap"><img class="intro-mark" src="assets/brand-emblem-intro.png?v=20261124-1" alt=""></div>
+      <div class="intro-mark-wrap"><img class="intro-mark" src="assets/brand-emblem-intro-clean.png?v=20261124-2" alt=""></div>
       <h1 class="intro-wordmark">ADWIN</h1>
       <span class="intro-rule" aria-hidden="true"></span>
       <span class="intro-overline">REALTY · HYDERABAD</span>
@@ -436,21 +436,14 @@
           <a class="adwin-map-all-link" href="https://maps.apple.com/?q=Adwin%20Realty%20Hyderabad" target="_blank" rel="noopener">Open Apple Maps <span aria-hidden="true">↗</span></a>
         </div>
         <div class="adwin-map-layout">
-          <div class="adwin-map-art" role="img" aria-label="Illustrated Telangana map showing Adwin Golden Meadows near Turkayamjal and Sree Ananda Sai Nagar at Chintapalli">
-            <div class="map-topographic-lines" aria-hidden="true"></div>
-            <svg class="telangana-map-svg" viewBox="0 0 520 470" aria-hidden="true">
-              <defs>
-                <linearGradient id="telanganaFace" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d8f0e8"/><stop offset="1" stop-color="#a8d6ca"/></linearGradient>
-                <filter id="mapShadow" x="-30%" y="-30%" width="170%" height="180%"><feDropShadow dx="13" dy="18" stdDeviation="10" flood-color="#173b3b" flood-opacity=".2"/></filter>
-              </defs>
-              <image class="telangana-face-img" href="assets/telangana-outline.png" x="48" y="17" width="424" height="424" preserveAspectRatio="xMidYMid meet" filter="url(#mapShadow)"/>
-              <text x="240" y="120" class="map-state-label">TELANGANA</text>
-              <text x="232" y="140" class="map-state-sub">INDIA</text>
-              <g class="map-marker marker-turkayamjal"><circle class="marker-shadow" cx="188" cy="292" r="22"/><circle class="marker-dot" cx="188" cy="292" r="8"/><circle class="marker-pulse" cx="188" cy="292" r="14"/><rect class="map-label-bg" x="110" y="251" width="148" height="28" rx="14"/><text x="122" y="270">TURKAYAMJAL</text></g>
-              <g class="map-marker marker-chintapalli"><circle class="marker-shadow" cx="222" cy="330" r="22"/><circle class="marker-dot" cx="222" cy="330" r="8"/><circle class="marker-pulse" cx="222" cy="330" r="14"/><rect class="map-label-bg" x="239" y="305" width="132" height="28" rx="14"/><text x="251" y="324">CHINTAPALLI</text></g>
-              <rect class="map-city-bg" x="129" y="224" width="94" height="25" rx="12"/><text x="141" y="241" class="map-city-label">Hyderabad</text>
-            </svg>
-            <span class="map-art-caption">Telangana outline: Planemad / Datameet · CC BY-SA 4.0</span>
+          <div class="adwin-map-art adwin-map-live adwin-map-illustration" aria-label="Telangana map with Adwin Realty project locations marked">
+            <div class="telangana-map-stage" id="telanganaMapStage">
+              <img src="assets/telangana-map-projects.jpeg" alt="Illustrated map of Telangana" class="telangana-map-image">
+              <span class="illustration-pin pin-golden" aria-hidden="true"></span><span class="illustration-label label-golden">Adwin Golden Meadows<small>Brahmanapally · Turkayamjal</small></span>
+              <span class="illustration-pin pin-ananda" aria-hidden="true"></span><span class="illustration-label label-ananda">Sree Ananda Sai Nagar<small>Chintapalli · Nagarjuna Sagar Road</small></span>
+            </div>
+            <div class="map-zoom-controls" aria-label="Map zoom controls"><button type="button" id="mapZoomIn" aria-label="Zoom in">+</button><button type="button" id="mapZoomOut" aria-label="Zoom out">−</button><button type="button" id="mapZoomReset" aria-label="Reset map zoom">↺</button></div>
+            <span class="map-art-caption">Telangana · Regional location indicators</span>
           </div>
           <div class="adwin-map-places">
             <article class="adwin-map-place">
@@ -1052,6 +1045,9 @@
     </div>
   </div>
 
+  <script>
+    (function(){const stage=document.getElementById('telanganaMapStage');if(!stage)return;let zoom=1;function setZoom(v){zoom=Math.max(1,Math.min(2.4,v));stage.style.transform='scale('+zoom+')'}document.getElementById('mapZoomIn').addEventListener('click',()=>setZoom(zoom+.2));document.getElementById('mapZoomOut').addEventListener('click',()=>setZoom(zoom-.2));document.getElementById('mapZoomReset').addEventListener('click',()=>setZoom(1));})();
+  </script>
   <!-- Scripts -->
   <script src="assets/app.js?v=20261124-4"></script>
   <script src="assets/motion.js?v=20261124-5"></script>
