@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <script>document.documentElement.classList.add('intro-pending');window.__adwinIntroFailSafe=setTimeout(()=>document.documentElement.classList.remove('intro-pending'),8000);</script>
   <meta name="theme-color" content="#07152c">
   <style>html,body{background:#fff}html.intro-pending,html.intro-pending body{background:#fff!important;min-height:100%}html.intro-pending body>*:not(#startupIntro){visibility:hidden}html.intro-pending #startupIntro{display:grid!important;position:fixed;inset:0;z-index:99999;place-items:center;overflow:hidden;background:#fff;color:#173e82}</style>
@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20261124-34">
+  <link rel="stylesheet" href="styles.css?v=20261124-35">
 </head>
 <body>
 
@@ -47,8 +47,8 @@
       <!-- Desktop Nav -->
       <nav class="main-nav" aria-label="Primary Navigation">
         <div class="nav-item has-dropdown">
-          <button class="nav-link dropdown-toggle" aria-expanded="false">
-            Properties <span class="chevron-down">⌵</span>
+          <button type="button" class="nav-link dropdown-toggle" aria-expanded="false">
+            Properties <svg class="chevron-down" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
           </button>
           <div class="dropdown-menu">
             <a href="#properties" data-filter-location="Chintapalli" class="dropdown-item">Sree Ananda Sai Nagar — Chintapalli</a>
@@ -61,8 +61,8 @@
         <a href="#how-it-works" class="nav-link">Company</a>
 
         <div class="nav-item has-dropdown">
-          <button class="nav-link dropdown-toggle" aria-expanded="false">
-            Advisory <span class="chevron-down">⌵</span>
+          <button type="button" class="nav-link dropdown-toggle" aria-expanded="false">
+            Advisory <svg class="chevron-down" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
           </button>
           <div class="dropdown-menu">
             <a href="#projects" class="dropdown-item">Featured Developments</a>
@@ -110,19 +110,27 @@
 
     <!-- Mobile Drawer -->
     <div class="mobile-drawer" id="mobileDrawer">
-      <nav class="mobile-nav">
+      <nav class="mobile-nav" aria-label="Mobile Navigation">
         <a href="#properties" class="mobile-link">Properties</a>
+        <a href="#project-locations" class="mobile-link">Telangana Project Map</a>
         <a href="#how-it-works" class="mobile-link">Company &amp; Process</a>
         <a href="#services" class="mobile-link">What We Offer</a>
         <a href="#reviews" class="mobile-link">Reviews</a>
+        <div class="mobile-drawer-row">
+          <span class="mobile-drawer-label">Display currency</span>
+          <div class="currency-toggle mobile-currency-toggle" title="Switch display currency (indicative)">
+            <button type="button" class="curr-btn active" data-curr="INR">₹ INR</button>
+            <button type="button" class="curr-btn" data-curr="USD">$ USD</button>
+          </div>
+        </div>
         <div class="mobile-socials" aria-label="Adwin Realty social media">
           <a href="https://www.facebook.com/p/Adwin-realty-61578165287472/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><img src="uploads/facebook.png?v=20261124-2" alt="Facebook"></a>
           <a href="https://www.instagram.com/adwin_infra/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="uploads/social.png?v=20261124-2" alt="Instagram"></a>
           <a href="https://www.linkedin.com/in/adwin-realty-8b62a5376/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img src="uploads/linkedin.png?v=20261124-2" alt="LinkedIn"></a>
         </div>
         <div class="mobile-drawer-actions">
-          <button class="btn btn-secondary w-full" id="mPostPropBtn">Market your land</button>
-          <button class="btn btn-primary w-full" id="mBookCallBtn">Book a call</button>
+          <button type="button" class="btn btn-secondary w-full" id="mPostPropBtn">Market your land</button>
+          <button type="button" class="btn btn-primary w-full" id="mBookCallBtn">Book a call</button>
         </div>
       </nav>
     </div>
@@ -436,13 +444,13 @@
           <a class="adwin-map-all-link" href="https://www.google.com/maps/search/?api=1&query=Adwin%20Realty%20Hyderabad" target="_blank" rel="noopener noreferrer">Open Google Maps <span aria-hidden="true">↗</span></a>
         </div>
         <div class="adwin-map-layout">
-          <div class="adwin-map-art adwin-map-live adwin-map-illustration" id="telanganaMapViewport" aria-label="Telangana map with Adwin Realty project locations marked">
+          <div class="adwin-map-art adwin-map-live adwin-map-illustration" id="telanganaMapViewport" tabindex="0" aria-label="Telangana map with Adwin Realty project locations marked. Tap or use controls to inspect.">
             <div class="telangana-map-stage" id="telanganaMapStage">
-              <img src="assets/telangana-map-projects.jpeg" alt="Illustrated map of Telangana" class="telangana-map-image">
+              <img src="assets/telangana-map-projects.jpeg" width="736" height="736" decoding="async" alt="Illustrated map of Telangana" class="telangana-map-image">
               <span class="illustration-pin pin-golden" aria-hidden="true"></span><span class="illustration-label label-golden">Adwin Golden Meadows<small>Brahmanapally · Turkayamjal</small></span>
               <span class="illustration-pin pin-ananda" aria-hidden="true"></span><span class="illustration-label label-ananda">Sree Ananda Sai Nagar<small>Chintapalli · Nagarjuna Sagar Road</small></span>
             </div>
-            <div class="map-zoom-controls" aria-label="Map zoom controls"><button type="button" id="mapZoomIn" aria-label="Zoom in" title="Zoom in">+</button><button type="button" id="mapZoomOut" aria-label="Zoom out" title="Zoom out">−</button><button type="button" id="mapZoomReset" aria-label="Reset map zoom" title="Reset zoom">↺</button><button type="button" id="mapFullViewBtn" aria-label="View full Telangana map image" title="View full map">⤢</button></div>
+            <div class="map-zoom-controls" aria-label="Map zoom controls"><button type="button" id="mapZoomIn" aria-label="Zoom in" title="Zoom in">+</button><button type="button" id="mapZoomOut" aria-label="Zoom out" title="Zoom out">−</button><button type="button" id="mapZoomReset" aria-label="Reset map zoom" title="Reset zoom"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg></button><button type="button" id="mapFullViewBtn" aria-label="View full Telangana map image" title="View full map"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg></button></div>
             <span class="map-art-caption">Telangana · Regional location indicators</span>
           </div>
           <div class="adwin-map-places">
@@ -1069,21 +1077,21 @@
           <h3 class="modal-title" id="telanganaMapModalTitle">Telangana Project Locations</h3>
           <p class="modal-sub">Full Telangana map showing Adwin Golden Meadows &amp; Sree Ananda Sai Nagar</p>
         </div>
-        <div class="map-modal-viewport" id="modalMapViewport">
+        <div class="map-modal-viewport" id="modalMapViewport" tabindex="0" aria-label="Interactive Telangana map. Double-tap, use buttons, or press plus and minus to zoom.">
           <div class="telangana-map-stage" id="modalTelanganaMapStage">
-            <img src="assets/telangana-map-projects.jpeg" alt="Full illustrated map of Telangana" class="telangana-map-image">
+            <img src="assets/telangana-map-projects.jpeg" width="736" height="736" decoding="async" alt="Full illustrated map of Telangana" class="telangana-map-image">
             <span class="illustration-pin pin-golden" aria-hidden="true"></span><span class="illustration-label label-golden">Adwin Golden Meadows<small>Brahmanapally · Turkayamjal</small></span>
             <span class="illustration-pin pin-ananda" aria-hidden="true"></span><span class="illustration-label label-ananda">Sree Ananda Sai Nagar<small>Chintapalli · Nagarjuna Sagar Road</small></span>
           </div>
-          <div class="map-zoom-controls" aria-label="Full map zoom controls"><button type="button" id="modalMapZoomIn" aria-label="Zoom in full map" title="Zoom in">+</button><button type="button" id="modalMapZoomOut" aria-label="Zoom out full map" title="Zoom out">−</button><button type="button" id="modalMapZoomReset" aria-label="Reset full map zoom" title="Reset zoom">↺</button></div>
+          <div class="map-zoom-controls" aria-label="Full map zoom controls"><button type="button" id="modalMapZoomIn" aria-label="Zoom in full map" title="Zoom in">+</button><button type="button" id="modalMapZoomOut" aria-label="Zoom out full map" title="Zoom out">−</button><button type="button" id="modalMapZoomReset" aria-label="Reset full map zoom" title="Reset zoom"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg></button></div>
         </div>
-        <p class="map-modal-hint">Use + / − to zoom and drag to inspect regions.</p>
+        <p class="map-modal-hint">Double-tap or use + / − to zoom, and drag to inspect regions.</p>
       </div>
     </div>
   </div>
 
   <!-- Scripts -->
-  <script src="assets/app.js?v=20261124-7"></script>
+  <script src="assets/app.js?v=20261124-8"></script>
   <script src="assets/motion.js?v=20261124-6"></script>
 </body>
 </html>

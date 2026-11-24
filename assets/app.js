@@ -390,18 +390,43 @@ document.addEventListener('DOMContentLoaded', () => {
   const floorplanModal = document.getElementById('floorplanModal');
   const telanganaMapModal = document.getElementById('telanganaMapModal');
 
+  let lastFocusedEl = null;
+
+  function updateModalScrollLock() {
+    const anyOpen = Boolean(document.querySelector('.modal-backdrop.open'));
+    if (anyOpen) {
+      const sbw = Math.max(0, window.innerWidth - document.documentElement.clientWidth);
+      document.documentElement.style.setProperty('--modal-sbw', sbw + 'px');
+    } else {
+      document.documentElement.style.removeProperty('--modal-sbw');
+    }
+    document.documentElement.classList.toggle('modal-open', anyOpen);
+    document.body.classList.toggle('modal-open', anyOpen);
+  }
+
   function openModal(modal) {
     if (!modal) return;
+    if (!document.querySelector('.modal-backdrop.open')) {
+      lastFocusedEl = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    }
     modal.classList.add('open');
     modal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
+    updateModalScrollLock();
+    const firstFocusable = modal.querySelector('.modal-close-btn, input, select, textarea, button');
+    if (firstFocusable instanceof HTMLElement) {
+      requestAnimationFrame(() => firstFocusable.focus({ preventScroll: true }));
+    }
   }
 
   function closeModal(modal) {
     if (!modal) return;
     modal.classList.remove('open');
     modal.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
+    updateModalScrollLock();
+    if (!document.querySelector('.modal-backdrop.open') && lastFocusedEl && lastFocusedEl.isConnected) {
+      lastFocusedEl.focus({ preventScroll: true });
+      lastFocusedEl = null;
+    }
   }
 
   // Close triggers
@@ -542,7 +567,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Telangana map zoom, pan & full-view modal
-  function setupZoomableMapStage({ viewport, stage, zoomInBtn, zoomOutBtn, resetBtn, onClickUnzoomed }) {
+  function setupZoomableMapStage({ viewport, stage, zoomInBtn, zoomOutBtn, resetBtn, onClickUnzoomed, allowDoubleTapZoom = false }) {
     if (!viewport || !stage) return { reset: () => {} };
     let zoom = 1;
     let panX = 0;
@@ -553,6 +578,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let originPanX = 0;
     let originPanY = 0;
     let moved = false;
+    let lastTapAt = 0;
 
     function clampPan() {
       const maxX = Math.max(0, (viewport.clientWidth * (zoom - 1)) / 2);
@@ -576,8 +602,8 @@ document.addEventListener('DOMContentLoaded', () => {
       render();
     }
 
-    if (zoomInBtn) zoomInBtn.addEventListener('click', () => setZoom(zoom + 0.2));
-    if (zoomOutBtn) zoomOutBtn.addEventListener('click', () => setZoom(zoom - 0.2));
+    if (zoomInBtn) zoomInBtn.addEventListener('click', () => setZoom(zoom + 0.25));
+    if (zoomOutBtn) zoomOutBtn.addEventListener('click', () => setZoom(zoom - 0.25));
     if (resetBtn) resetBtn.addEventListener('click', () => setZoom(1));
 
     viewport.addEventListener('pointerdown', (e) => {
@@ -618,13 +644,44 @@ document.addEventListener('DOMContentLoaded', () => {
           if (viewport.hasPointerCapture(e.pointerId)) viewport.releasePointerCapture(e.pointerId);
         } catch {}
       }
-      if (wasTap && zoom === 1 && typeof onClickUnzoomed === 'function' && !e.target.closest('.map-zoom-controls')) {
-        onClickUnzoomed();
+      if (wasTap && !e.target.closest('.map-zoom-controls')) {
+        if (allowDoubleTapZoom) {
+          const now = Date.now();
+          if (now - lastTapAt < 320) {
+            lastTapAt = 0;
+            setZoom(zoom > 1 ? 1 : 1.75);
+            return;
+          }
+          lastTapAt = now;
+        }
+        if (zoom === 1 && typeof onClickUnzoomed === 'function') {
+          onClickUnzoomed();
+        }
       }
     }
 
     viewport.addEventListener('pointerup', endPointer);
     viewport.addEventListener('pointercancel', endPointer);
+
+    viewport.addEventListener('keydown', (e) => {
+      if (e.key === '+' || e.key === '=') { e.preventDefault(); setZoom(zoom + 0.25); }
+      else if (e.key === '-' || e.key === '_') { e.preventDefault(); setZoom(zoom - 0.25); }
+      else if (e.key === '0') { e.preventDefault(); setZoom(1); }
+      else if (e.key === 'Enter' && zoom === 1 && typeof onClickUnzoomed === 'function') {
+        e.preventDefault();
+        onClickUnzoomed();
+      } else if (zoom > 1 && ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) {
+        e.preventDefault();
+        const step = 36;
+        if (e.key === 'ArrowLeft') panX += step;
+        if (e.key === 'ArrowRight') panX -= step;
+        if (e.key === 'ArrowUp') panY += step;
+        if (e.key === 'ArrowDown') panY -= step;
+        render();
+      }
+    });
+
+    window.addEventListener('resize', render, { passive: true });
 
     return {
       reset: () => setZoom(1)
@@ -636,7 +693,8 @@ document.addEventListener('DOMContentLoaded', () => {
     stage: document.getElementById('modalTelanganaMapStage'),
     zoomInBtn: document.getElementById('modalMapZoomIn'),
     zoomOutBtn: document.getElementById('modalMapZoomOut'),
-    resetBtn: document.getElementById('modalMapZoomReset')
+    resetBtn: document.getElementById('modalMapZoomReset'),
+    allowDoubleTapZoom: true
   });
 
   function openFullTelanganaMap() {
@@ -826,6 +884,39 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Accessible desktop/tablet dropdown toggles (touch & keyboard friendly)
+  const navDropdownItems = Array.from(document.querySelectorAll('.nav-item.has-dropdown'));
+  function closeAllNavDropdowns(exceptItem = null) {
+    navDropdownItems.forEach(item => {
+      if (item !== exceptItem) {
+        item.classList.remove('open');
+        const toggle = item.querySelector('.dropdown-toggle');
+        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+  navDropdownItems.forEach(item => {
+    const toggle = item.querySelector('.dropdown-toggle');
+    if (toggle) {
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const willOpen = !item.classList.contains('open');
+        closeAllNavDropdowns(item);
+        item.classList.toggle('open', willOpen);
+        toggle.setAttribute('aria-expanded', String(willOpen));
+      });
+    }
+    item.querySelectorAll('.dropdown-item').forEach(link => {
+      link.addEventListener('click', () => closeAllNavDropdowns());
+    });
+  });
+  document.addEventListener('pointerdown', (e) => {
+    if (!e.target.closest('.nav-item.has-dropdown')) closeAllNavDropdowns();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeAllNavDropdowns();
+  });
+
   // Accessible responsive navigation drawer
   const mobileToggle = document.getElementById('mobileToggle');
   const mobileDrawer = document.getElementById('mobileDrawer');
@@ -842,7 +933,9 @@ document.addEventListener('DOMContentLoaded', () => {
       setMobileMenu(!mobileDrawer.classList.contains('open'));
     });
     mobileDrawer.querySelectorAll('a, button').forEach(control => {
-      control.addEventListener('click', () => setMobileMenu(false));
+      control.addEventListener('click', () => {
+        if (!control.classList.contains('curr-btn')) setMobileMenu(false);
+      });
     });
     document.addEventListener('keydown', event => {
       if (event.key === 'Escape' && mobileDrawer.classList.contains('open')) {
