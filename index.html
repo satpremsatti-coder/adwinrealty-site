@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adwin Realty — DTCP &amp; HMDA Approved Plots, Luxury Flats &amp; Premium Villas in Hyderabad</title>
+  <meta name="description" content="Adwin Realty markets HMDA &amp; DTCP-approved open plots, luxury flats and premium villas across Hyderabad. Sree Ananda Sai Nagar (Chintapalli, Nagarjuna Sagar Road) and Adwin Golden Meadows (Turkayamjal, inside ORR).">
+  <link rel="icon" type="image/png" href="assets/brand-favicon.png?v=20261124-2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20261124-5">
+</head>
+<body>
+
+  <!-- Toast Notification Container -->
+  <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+  <!-- ======================== HEADER / NAVIGATION ======================== -->
+  <header class="site-header" id="siteHeader">
+    <div class="header-inner container">
+      <!-- Logo -->
+      <a href="#" class="brand-logo" aria-label="Adwin Realty Home">
+        <img src="assets/brand-emblem.png?v=20261124-2" alt="Adwin Realty logo" class="brand-img">
+        <div class="brand-text">
+          <span class="brand-title">ADWIN</span>
+          <span class="brand-sub">REALTY</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="main-nav" aria-label="Primary Navigation">
+        <div class="nav-item has-dropdown">
+          <button class="nav-link dropdown-toggle" aria-expanded="false">
+            Properties <span class="chevron-down">⌵</span>
+          </button>
+          <div class="dropdown-menu">
+            <a href="#properties" data-filter-location="Chintapalli" class="dropdown-item">Sree Ananda Sai Nagar — Chintapalli</a>
+            <a href="#properties" data-filter-location="Turkayamjal" class="dropdown-item">Adwin Golden Meadows — Turkayamjal</a>
+            <a href="#properties" data-filter-location="Sagar Highway Corridor" class="dropdown-item">Sandalwood &amp; Farm Plots — Sagar Hwy</a>
+            <a href="#properties" data-filter-location="Hyderabad City" class="dropdown-item">Luxury Flats — Hyderabad City</a>
+            <a href="#properties" data-filter-location="all" class="dropdown-item">All Listings</a>
+          </div>
+        </div>
+
+        <a href="#how-it-works" class="nav-link">Company</a>
+
+        <div class="nav-item has-dropdown">
+          <button class="nav-link dropdown-toggle" aria-expanded="false">
+            Advisory <span class="chevron-down">⌵</span>
+          </button>
+          <div class="dropdown-menu">
+            <a href="#projects" class="dropdown-item">Featured Developments</a>
+            <a href="#services" class="dropdown-item">What We Offer</a>
+            <a href="#how-it-works" class="dropdown-item">Approvals &amp; Spot Registration</a>
+            <a href="#contact" class="dropdown-item">Talk to the Team</a>
+          </div>
+        </div>
+
+        <a href="#reviews" class="nav-link">Reviews</a>
+      </nav>
+
+      <!-- Nav Actions -->
+      <div class="header-actions">
+        <!-- Currency Switcher -->
+        <div class="currency-toggle" title="Switch display currency (indicative)">
+          <button class="curr-btn active" data-curr="INR">₹ INR</button>
+          <button class="curr-btn" data-curr="USD">$ USD</button>
+        </div>
+
+        <button class="btn btn-secondary post-prop-btn" id="openPostPropBtn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          <span>Market your land</span>
+        </button>
+
+        <div class="header-cta-stack">
+          <button class="btn btn-primary" id="openBookCallHeader">
+            Book a call
+          </button>
+          <div class="header-socials" aria-label="Adwin Realty social media">
+            <a href="https://www.facebook.com/p/Adwin-realty-61578165287472/" target="_blank" rel="noopener noreferrer" aria-label="Visit Adwin Realty on Facebook"><img src="uploads/facebook.png?v=20261124-2" alt="Facebook"></a>
+            <a href="https://www.instagram.com/adwin_infra/" target="_blank" rel="noopener noreferrer" aria-label="Visit Adwin Infra on Instagram"><img src="uploads/social.png?v=20261124-2" alt="Instagram"></a>
+            <a href="https://www.linkedin.com/in/adwin-realty-8b62a5376/" target="_blank" rel="noopener noreferrer" aria-label="Visit Adwin Realty on LinkedIn"><img src="uploads/linkedin.png?v=20261124-2" alt="LinkedIn"></a>
+          </div>
+        </div>
+
+        <!-- Mobile hamburger -->
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div class="mobile-drawer" id="mobileDrawer">
+      <nav class="mobile-nav">
+        <a href="#properties" class="mobile-link">Properties</a>
+        <a href="#how-it-works" class="mobile-link">Company &amp; Process</a>
+        <a href="#services" class="mobile-link">What We Offer</a>
+        <a href="#reviews" class="mobile-link">Reviews</a>
+        <div class="mobile-socials" aria-label="Adwin Realty social media">
+          <a href="https://www.facebook.com/p/Adwin-realty-61578165287472/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><img src="uploads/facebook.png?v=20261124-2" alt="Facebook"></a>
+          <a href="https://www.instagram.com/adwin_infra/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="uploads/social.png?v=20261124-2" alt="Instagram"></a>
+          <a href="https://www.linkedin.com/in/adwin-realty-8b62a5376/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img src="uploads/linkedin.png?v=20261124-2" alt="LinkedIn"></a>
+        </div>
+        <div class="mobile-drawer-actions">
+          <button class="btn btn-secondary w-full" id="mPostPropBtn">Market your land</button>
+          <button class="btn btn-primary w-full" id="mBookCallBtn">Book a call</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ======================== MAIN CONTENT ======================== -->
+  <main>
+
+    <!-- SECTION 1: HERO -->
+    <section class="hero-section" id="home">
+      <div class="container">
+        <!-- Hero Header Row -->
+        <div class="hero-header-grid">
+          <div class="hero-title-col">
+            <h1 class="hero-title">Land, flats and villas<br><span class="hero-title-accent">you will call home</span></h1>
+            <div class="hero-btn-wrap">
+              <button class="btn btn-primary btn-lg" id="heroBookCallBtn">
+                Book a call
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </button>
+            </div>
+          </div>
+          <div class="hero-desc-col">
+            <p class="hero-subtext">
+              HMDA &amp; DTCP-approved plots to luxury flats and premium villas — we bring you the finest investment opportunities across Hyderabad.
+            </p>
+          </div>
+        </div>
+
+        <!-- Hero Hero Image Container -->
+        <div class="hero-media-wrapper">
+          <img src="assets/hero_plots_aerial.jpg?v=20261124-2" alt="Aerial view of a plotted residential layout in Hyderabad" class="hero-banner-img">
+
+          <!-- Floating interactive chips -->
+          <div class="hero-chip hero-chip-top">
+            <span class="chip-dot"></span>
+            <span class="chip-text"><strong>Sree Ananda Sai Nagar</strong> • DTCP Approved · TLP No. 227/2021/H</span>
+          </div>
+          <div class="hero-chip hero-chip-bottom">
+            <div class="chip-rating">
+              <span class="star">★</span> <strong>4.8/5</strong>
+            </div>
+            <span class="chip-sub">Rated 4.8/5 on Google — 4 reviews</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: SEARCH & FILTER + SECOND HEADLINE -->
+    <section class="filter-section" id="properties">
+      <div class="container">
+        <!-- Second Heading Row -->
+        <div class="section-header-split">
+          <div class="split-left">
+            <h2 class="split-title">We help you find the<br>home that will be yours</h2>
+          </div>
+          <div class="split-right">
+            <p class="split-subtext">
+              Our projects are about harmony, style and care that everyone lives in what is really important to them in Hyderabad’s most coveted neighborhoods.
+            </p>
+          </div>
+        </div>
+
+        <!-- Shakuro Segmented Filter Box -->
+        <div class="search-filter-card">
+          <!-- Top Category Tabs -->
+          <div class="filter-tabs" role="tablist">
+            <button class="filter-tab active" data-types="all" role="tab" aria-selected="true">All listings</button>
+            <button class="filter-tab" data-types="DTCP Plot,Farm Plot" role="tab" aria-selected="false">Open plots</button>
+            <button class="filter-tab" data-types="Villa" role="tab" aria-selected="false">Villas</button>
+            <button class="filter-tab" data-types="Flat" role="tab" aria-selected="false">Luxury flats</button>
+            <button class="filter-tab" data-types="Farm Plot" role="tab" aria-selected="false">Farm &amp; sandalwood</button>
+          </div>
+
+          <!-- Dropdown Filters Row -->
+          <div class="filter-dropdowns-row">
+            <!-- Micro-market / Location -->
+            <div class="select-field">
+              <label class="sr-only" for="locationSelect">Location</label>
+              <select id="locationSelect" class="custom-select">
+                <option value="all">All locations (Hyderabad)</option>
+                <option value="Chintapalli">Chintapalli — Nagarjuna Sagar Road</option>
+                <option value="Turkayamjal">Brahmanapally — Turkayamjal (Inside ORR)</option>
+                <option value="Sagar Highway Corridor">Sagar Highway Corridor</option>
+                <option value="Hyderabad City">Hyderabad City</option>
+              </select>
+            </div>
+
+            <!-- Property Type -->
+            <div class="select-field">
+              <label class="sr-only" for="propertyTypeSelect">Property Type</label>
+              <select id="propertyTypeSelect" class="custom-select">
+                <option value="all">All types</option>
+                <option value="DTCP Plot">DTCP Approved Open Plot</option>
+                <option value="Farm Plot">Farm &amp; Sandalwood Plot</option>
+                <option value="Villa">Premium Customised Villa</option>
+                <option value="Flat">Luxury Flat</option>
+              </select>
+            </div>
+
+            <!-- Price Range -->
+            <div class="select-field">
+              <label class="sr-only" for="priceRangeSelect">Price Range</label>
+              <select id="priceRangeSelect" class="custom-select">
+                <option value="all">All price ranges</option>
+                <option value="tier1">Under ₹10 L ($12k)</option>
+                <option value="tier2">₹10 L – ₹25 L ($12k - $30k)</option>
+                <option value="tier3">₹25 L – ₹50 L ($30k - $60k)</option>
+                <option value="tier4">₹50 L and above ($60k+)</option>
+              </select>
+            </div>
+
+            <!-- Size (sq. yd.) -->
+            <div class="select-field">
+              <label class="sr-only" for="sizeSelect">Size</label>
+              <select id="sizeSelect" class="custom-select">
+                <option value="all">All sizes (sq. yd.)</option>
+                <option value="small">Up to 150 sq. yd.</option>
+                <option value="medium">150 – 250 sq. yd.</option>
+                <option value="large">250 – 500 sq. yd.</option>
+                <option value="xl">500+ sq. yd.</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Filter Actions Row -->
+          <div class="filter-actions-row">
+            <button class="more-options-toggle" id="toggleMoreOptions" aria-expanded="false">
+              <span class="plus-icon">+</span> More options
+            </button>
+
+            <div class="filter-actions-right">
+              <button class="clear-filters-btn" id="clearFiltersBtn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                Clear filters
+              </button>
+
+              <button class="btn btn-primary show-properties-btn" id="showPropertiesBtn">
+                Show properties (<span id="propertiesCount">6</span>)
+              </button>
+            </div>
+          </div>
+
+          <!-- Expandable More Options Drawer -->
+          <div class="more-options-panel" id="moreOptionsPanel">
+            <div class="more-options-grid">
+              <div class="option-group">
+                <span class="option-group-title">Approvals</span>
+                <div class="checkbox-pills">
+                  <label class="checkbox-pill"><input type="checkbox" name="approval" value="dtcp"> DTCP Approved</label>
+                  <label class="checkbox-pill"><input type="checkbox" name="approval" value="hmda"> HMDA Approved</label>
+                  <label class="checkbox-pill"><input type="checkbox" name="approval" value="spot"> Spot Registration</label>
+                </div>
+              </div>
+              <div class="option-group">
+                <span class="option-group-title">Key Highlights</span>
+                <div class="checkbox-pills">
+                  <label class="checkbox-pill"><input type="checkbox" name="amenity" value="sandalwood"> Sandalwood Planting</label>
+                  <label class="checkbox-pill"><input type="checkbox" name="amenity" value="highway"> Near Sagar Highway</label>
+                  <label class="checkbox-pill"><input type="checkbox" name="amenity" value="orr"> Inside ORR</label>
+                  <label class="checkbox-pill"><input type="checkbox" name="amenity" value="future"> Near Future City</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Property Grid Header -->
+        <div class="grid-section-header">
+          <h3 class="grid-section-title">Live listings</h3>
+          <span class="properties-status-hint" id="statusHint">Showing 6 verified Hyderabad listings</span>
+        </div>
+
+        <!-- 6 Property Cards Grid -->
+        <div class="properties-grid" id="propertiesGrid">
+          <!-- Card 1 -->
+          <article class="property-card" data-location="Chintapalli" data-type="DTCP Plot" data-price-inr="749850" data-price-usd="9034" data-size="150" data-beds="0">
+            <div class="card-media">
+              <img src="assets/property_1.jpg?v=20261124-2" alt="Sree Ananda Sai Nagar 150 square yard plot, Chintapalli" class="card-img" loading="lazy">
+              <span class="card-badge badge-blue">DTCP Approved</span>
+            </div>
+            <div class="card-content">
+              <div class="card-headline-row">
+                <h4 class="card-title">Sree Ananda Sai Nagar — 150 Sq. Yd</h4>
+                <div class="card-price" data-inr="₹7,49,850" data-usd="$9,034">₹7,49,850</div>
+              </div>
+              <p class="card-location">Chintapalli Sai Baba Temple, Nagarjuna Sagar Road</p>
+              <div class="card-specs">
+                <span class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18M9 21V9"></path></svg> 150 sq. yd.</span>
+                <span class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 21h18M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path></svg> TLP 227/2021/H</span>
+                <span class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M2 4v16M2 8h18a2 2 0 0 1 2 2v10M2 17h20M6 8v9"></path></svg> ₹4,999/sq. yd.</span>
+                <span class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 6h6M7 10h10M4 14h16a2 2 0 0 1 2 2v1a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-1a2 2 0 0 1 2-2z"></path></svg> Spot registration</span>
+              </div>
+              <div class="card-footer-action">
+                <button class="card-action-btn view-details-btn" data-id="1">View Details</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="property-card" data-location="Chintapalli" data-type="DTCP Plot" data-price-inr="1249750" data-price-usd="15058" data-size="250" data-beds="0">
+            <div class="card-media">
+              <img src="assets/property_2.jpg?v=20261124-2" alt="Sandalwood saplings grown on a plot at Sree Ananda Sai Nagar" class="card-img" loading="lazy">
+              <span class="card-badge badge-orange">Sandalwood</span>
+            </div>
+            <div class="card-content">
+              <div class="card-headline-row">
+                <h4 class="card-title">Sree Ananda Sai Nagar — 250 Sq. Yd</h4>
+                <div class="card-price" data-inr="₹12,49,750" data-usd="$15,058">₹12,49,750</div>
+              </div>
+              <p class="card-location">Chintapalli Sai Baba Temple, Nagarjuna Sagar Road</p>
+              <div class="card-specs">
+                <span class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18M9 21V9"></path></svg> 250 sq. yd.</span>
+                <span class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 21h18M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path></svg> TLP 227/2021/H</span>
+                <span class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M2 4v16M2 8h18a2 2 0 0 1 2 2v10M2 17h20M6 8v9"></path></svg> ₹4,999/sq. yd.</span>
+                <span class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 6h6M7 10h10M4 14h16a2 2 0 0 1 2 2v1a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-1a2 2 0 0 1 2-2z"></path></svg> Plant sandalwood</span>
+              </div>
+              <div class="card-footer-action">
+                <button class="card-action-btn view-details-btn" data-id="2">View Details</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="property-card" data-location="Chintapalli" data-type="Farm Plot" data-price-inr="2499500" data-price-usd="30114" data-size="500" data-beds="0">
+            <div class="card-media">
+              <img src="assets/property_3.jpg?v=20261124-2" alt="Weekend farmhouse plot at Sree Ananda Sai Nagar" class="card-img" loading="lazy">
+              <span class="card-badge badge-dark">500 Sq. Yd.</span>
+            </div>
+            <div class="card-content">
+              <div class="card-headline-row">
+                <h4 class="card-title">Sree Ananda Sai Nagar — 500 Sq. Yd</h4>
+                <div class="card-price" data-inr="₹24,99,500" data-usd="$30,114">₹24,99,500</div>
+              </div>
+              <p class="card-location">Chintapalli Sai Baba Temple, Nagarjuna Sagar Road</p>
+              <div class="card-specs">
+                <span class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18M9 21V9"></path></svg> 500 sq. yd.</span>
+                <span class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 21h18M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path></svg> TLP 227/2021/H</span>
+                <span class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M2 4v16M2 8h18a2 2 0 0 1 2 2v10M2 17h20M6 8v9"></path></svg> ₹4,999/sq. yd.</span>
+                <span class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 6h6M7 10h10M4 14h16a2 2 0 0 1 2 2v1a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-1a2 2 0 0 1 2-2z"></path></svg> Farmhouse ready</span>
+              </div>
+              <div class="card-footer-action">
+                <button class="card-action-btn view-details-btn" data-id="3">View Details</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 4 -->
+          <article class="property-card" data-location="Turkayamjal" data-type="Villa" data-price-inr="0" data-price-usd="0" data-size="0" data-beds="4">
+            <div class="card-media">
+              <img src="assets/property_4.jpg?v=20261124-2" alt="Adwin Golden Meadows customised villa at Turkayamjal" class="card-img" loading="lazy">
+              <span class="card-badge badge-orange">Inside ORR</span>
+            </div>
+            <div class="card-content">
+              <div class="card-headline-row">
+                <h4 class="card-title">Adwin Golden Meadows — Custom Villa</h4>
+                <div class="card-price" data-inr="On request" data-usd="On request">On request</div>
+              </div>
+              <p class="card-location">Brahmanapally — Turkayamjal, Hyderabad</p>
+              <div class="card-specs">
+                <span class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18M9 21V9"></path></svg> Customised</span>
+                <span class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 21h18M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path></svg> 4 BHK villa</span>
+                <span class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M2 4v16M2 8h18a2 2 0 0 1 2 2v10M2 17h20M6 8v9"></path></svg> Near RGIA</span>
+                <span class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 6h6M7 10h10M4 14h16a2 2 0 0 1 2 2v1a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-1a2 2 0 0 1 2-2z"></path></svg> Future-ready</span>
+              </div>
+              <div class="card-footer-action">
+                <button class="card-action-btn view-details-btn" data-id="4">View Details</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 5 -->
+          <article class="property-card" data-location="Hyderabad City" data-type="Flat" data-price-inr="0" data-price-usd="0" data-size="0" data-beds="3">
+            <div class="card-media">
+              <img src="assets/property_5.jpg?v=20261124-2" alt="Luxury flats marketed by Adwin Realty in Hyderabad" class="card-img" loading="lazy">
+              <span class="card-badge badge-blue">Luxury Flat</span>
+            </div>
+            <div class="card-content">
+              <div class="card-headline-row">
+                <h4 class="card-title">Luxury Flats — Hyderabad City</h4>
+                <div class="card-price" data-inr="On request" data-usd="On request">On request</div>
+              </div>
+              <p class="card-location">Across Hyderabad, Telangana</p>
+              <div class="card-specs">
+                <span class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18M9 21V9"></path></svg> 2 &amp; 3 BHK</span>
+                <span class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 21h18M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path></svg> Ready to move</span>
+                <span class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M2 4v16M2 8h18a2 2 0 0 1 2 2v10M2 17h20M6 8v9"></path></svg> HMDA &amp; DTCP</span>
+                <span class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 6h6M7 10h10M4 14h16a2 2 0 0 1 2 2v1a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-1a2 2 0 0 1 2-2z"></path></svg> New &amp; resale</span>
+              </div>
+              <div class="card-footer-action">
+                <button class="card-action-btn view-details-btn" data-id="5">View Details</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 6 -->
+          <article class="property-card" data-location="Sagar Highway Corridor" data-type="Farm Plot" data-price-inr="0" data-price-usd="0" data-size="0" data-beds="0">
+            <div class="card-media">
+              <img src="assets/property_6.jpg?v=20261124-2" alt="Farm land along the Sagar Highway corridor" class="card-img" loading="lazy">
+              <span class="card-badge badge-dark">Farm &amp; Cottage</span>
+            </div>
+            <div class="card-content">
+              <div class="card-headline-row">
+                <h4 class="card-title">Farm &amp; Cottage Land — Sagar Corridor</h4>
+                <div class="card-price" data-inr="On request" data-usd="On request">On request</div>
+              </div>
+              <p class="card-location">Nagarjuna Sagar Highway &amp; RRR Corridor</p>
+              <div class="card-specs">
+                <span class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18M9 21V9"></path></svg> Farm land</span>
+                <span class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 21h18M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path></svg> Cottages</span>
+                <span class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M2 4v16M2 8h18a2 2 0 0 1 2 2v10M2 17h20M6 8v9"></path></svg> Pool &amp; guest house</span>
+                <span class="spec-item"><svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 6h6M7 10h10M4 14h16a2 2 0 0 1 2 2v1a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-1a2 2 0 0 1 2-2z"></path></svg> Near Future City</span>
+              </div>
+              <div class="card-footer-action">
+                <button class="card-action-btn view-details-btn" data-id="6">View Details</button>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="no-results-msg" id="noResultsMsg" style="display: none;">
+          <h4>No properties match your filter criteria</h4>
+          <p>Try resetting filters or expanding your price and location range.</p>
+          <button class="btn btn-secondary" id="resetFiltersBtn">Reset all filters</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: SEE WHAT WE OFFER AND HOW IT WORKS -->
+    <section class="how-it-works-section" id="how-it-works">
+      <div class="container">
+        <!-- Section Header Row -->
+        <div class="section-header-split">
+          <div class="split-left">
+            <h2 class="split-title">See what we offer<br>and how it works</h2>
+          </div>
+          <div class="split-right">
+            <p class="split-subtext">
+              Site visits, clear approvals and honest guidance — everything you need to buy land or a home with confidence across Hyderabad.
+            </p>
+          </div>
+        </div>
+
+        <!-- 2 Column Layout Matching Shakuro -->
+        <div class="how-it-works-grid">
+          <!-- Left Column: Dynamic Step Card + Stepper -->
+          <div class="hw-left-col">
+            <div class="hw-card" id="hwStepCard">
+              <h3 class="hw-step-title" id="hwStepTitle">Property selection</h3>
+              <p class="hw-step-desc" id="hwStepDesc">
+                Adwin Realty advisors share our live DTCP and HMDA approved layouts, with plot sizes, road widths, amenities and pricing confirmed before you visit.
+              </p>
+              <div class="hw-card-action">
+                <button class="btn btn-secondary hw-consult-btn" id="hwConsultBtn">
+                  Get consultation
+                </button>
+              </div>
+            </div>
+
+            <!-- Stepper Interactive List -->
+            <ul class="hw-stepper-list" role="tablist">
+              <li class="hw-stepper-item" data-step="0" role="tab" tabindex="0">
+                <span class="step-bullet"></span>
+                <span class="step-text">Request &amp; requirements</span>
+              </li>
+              <li class="hw-stepper-item active" data-step="1" role="tab" tabindex="0">
+                <span class="step-bullet"></span>
+                <span class="step-text">Property selection</span>
+              </li>
+              <li class="hw-stepper-item" data-step="2" role="tab" tabindex="0">
+                <span class="step-bullet"></span>
+                <span class="step-text">Approvals &amp; documentation</span>
+              </li>
+              <li class="hw-stepper-item" data-step="3" role="tab" tabindex="0">
+                <span class="step-bullet"></span>
+                <span class="step-text">Spot registration &amp; possession</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Right Column: Visual Showcase with Inset Floor Plan -->
+          <div class="hw-right-col">
+            <div class="hw-image-wrapper">
+              <img src="assets/how_it_works.jpg?v=20261124-2" alt="Site engineers surveying a plotted layout in Hyderabad" class="hw-hero-img">
+
+              <!-- Shakuro Signature Inset Card (Layout Plan) -->
+              <div class="floorplan-inset-card" id="floorplanCard" title="Click to view the layout plan">
+                <img src="assets/floorplan_thumb.jpg?v=20261124-2" alt="Indicative layout plan sketch" class="floorplan-img">
+                <div class="floorplan-overlay">
+                  <span class="fp-badge">View Plan</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: WHAT WE OFFER -->
+    <section class="agents-section" id="services">
+      <div class="container">
+        <!-- Header with Slider Controls -->
+        <div class="agents-header-row">
+          <h2 class="section-title">What we offer</h2>
+          <div class="slider-controls">
+            <button class="slider-arrow" id="agentPrevBtn" aria-label="Previous service">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button class="slider-arrow" id="agentNextBtn" aria-label="Next service">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 Service Cards Row -->
+        <div class="agents-grid" id="agentsSlider">
+          <!-- Service 1 -->
+          <div class="agent-card">
+            <div class="agent-media">
+              <img src="assets/agent_1.jpg?v=20261124-2" alt="DTCP approved plotted layout with marked plots" class="agent-photo">
+              <span class="agent-brand-chip">ADWIN</span>
+            </div>
+            <div class="agent-info">
+              <h4 class="agent-name">DTCP &amp; HMDA Open Plots</h4>
+              <p class="agent-role">Approved layouts with clear title, spot registration and premium amenities</p>
+              <div class="agent-rating">
+                <strong>₹4,999</strong> <span class="rating-sub">/ sq. yd. onwards</span>
+              </div>
+              <div class="agent-actions">
+                <a href="tel:+918125708777" class="agent-btn phone-btn">
+                  +91 81257 08777
+                </a>
+                <button class="agent-btn mail-btn open-contact-agent" data-agent="DTCP &amp; HMDA Open Plots" title="Enquire about open plots">
+                  @
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Service 2 -->
+          <div class="agent-card">
+            <div class="agent-media">
+              <img src="assets/agent_2.jpg?v=20261124-2" alt="Farm land ready for sandalwood plantation near Sagar Highway" class="agent-photo">
+              <span class="agent-brand-chip">ADWIN</span>
+            </div>
+            <div class="agent-info">
+              <h4 class="agent-name">Farm &amp; Sandalwood Land</h4>
+              <p class="agent-role">Sandalwood plantation, farmhouses, guest houses with pool and weekend cottages</p>
+              <div class="agent-rating">
+                <strong>RRR</strong> <span class="rating-sub">corridor connectivity</span>
+              </div>
+              <div class="agent-actions">
+                <a href="tel:+918125708777" class="agent-btn phone-btn">
+                  +91 81257 08777
+                </a>
+                <button class="agent-btn mail-btn open-contact-agent" data-agent="Farm &amp; Sandalwood Land" title="Enquire about farm land">
+                  @
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Service 3 -->
+          <div class="agent-card">
+            <div class="agent-media">
+              <img src="assets/agent_3.jpg?v=20261124-2" alt="Customised premium villa designed for modern living" class="agent-photo">
+              <span class="agent-brand-chip">ADWIN</span>
+            </div>
+            <div class="agent-info">
+              <h4 class="agent-name">Customised Villas</h4>
+              <p class="agent-role">Future-ready villa communities built to your plan, close to the city and inside ORR</p>
+              <div class="agent-rating">
+                <strong>4 BHK</strong> <span class="rating-sub">customisable layouts</span>
+              </div>
+              <div class="agent-actions">
+                <a href="tel:+918125708777" class="agent-btn phone-btn">
+                  +91 81257 08777
+                </a>
+                <button class="agent-btn mail-btn open-contact-agent" data-agent="Customised Villas" title="Enquire about villas">
+                  @
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Service 4 -->
+          <div class="agent-card">
+            <div class="agent-media">
+              <img src="assets/agent_4.jpg?v=20261124-2" alt="Residential apartments and towers across Hyderabad" class="agent-photo">
+              <span class="agent-brand-chip">ADWIN</span>
+            </div>
+            <div class="agent-info">
+              <h4 class="agent-name">Luxury Flats</h4>
+              <p class="agent-role">Ready-to-move and under-construction apartments across Hyderabad, new and resale</p>
+              <div class="agent-rating">
+                <strong>2 &amp; 3</strong> <span class="rating-sub">BHK configurations</span>
+              </div>
+              <div class="agent-actions">
+                <a href="tel:+918125708777" class="agent-btn phone-btn">
+                  +91 81257 08777
+                </a>
+                <button class="agent-btn mail-btn open-contact-agent" data-agent="Luxury Flats" title="Enquire about flats">
+                  @
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: FEATURED DEVELOPMENTS -->
+    <section class="investments-section" id="projects">
+      <div class="container">
+        <!-- Section Header Row -->
+        <div class="section-header-split">
+          <div class="split-left">
+            <h2 class="split-title">Featured developments<br>and live offers</h2>
+          </div>
+          <div class="split-right">
+            <p class="split-subtext">
+              Our assets are not just square yards, it’s an opportunity for your capital to work for you. We carefully select the best investment options for our clients across Hyderabad’s growth corridors.
+            </p>
+          </div>
+        </div>
+
+        <!-- 3 Metric Cards with Bar Charts -->
+        <div class="metrics-grid">
+          <!-- Metric 1 -->
+          <div class="metric-card">
+            <span class="metric-label">Starting rate</span>
+            <div class="metric-value">₹4,999</div>
+            <!-- Micro Bar Chart -->
+            <div class="micro-chart" aria-hidden="true">
+              <div class="chart-bar" style="height: 38%;"></div>
+              <div class="chart-bar" style="height: 52%;"></div>
+              <div class="chart-bar" style="height: 48%;"></div>
+              <div class="chart-bar" style="height: 64%;"></div>
+              <div class="chart-bar" style="height: 72%;"></div>
+              <div class="chart-bar" style="height: 85%;"></div>
+              <div class="chart-bar bar-accent" style="height: 94%;"></div>
+              <div class="chart-bar" style="height: 78%;"></div>
+              <div class="chart-bar" style="height: 88%;"></div>
+            </div>
+          </div>
+
+          <!-- Metric 2 -->
+          <div class="metric-card">
+            <span class="metric-label">Layout approval</span>
+            <div class="metric-value" id="cumulativeGainVal">TLP 227/2021/H</div>
+            <!-- Micro Bar Chart -->
+            <div class="micro-chart" aria-hidden="true">
+              <div class="chart-bar" style="height: 25%;"></div>
+              <div class="chart-bar" style="height: 34%;"></div>
+              <div class="chart-bar" style="height: 42%;"></div>
+              <div class="chart-bar" style="height: 50%;"></div>
+              <div class="chart-bar" style="height: 62%;"></div>
+              <div class="chart-bar" style="height: 74%;"></div>
+              <div class="chart-bar" style="height: 82%;"></div>
+              <div class="chart-bar bar-accent" style="height: 96%;"></div>
+              <div class="chart-bar" style="height: 90%;"></div>
+            </div>
+          </div>
+
+          <!-- Metric 3 -->
+          <div class="metric-card">
+            <span class="metric-label">Client rating</span>
+            <div class="metric-value">4.8 / 5</div>
+            <!-- Micro Bar Chart -->
+            <div class="micro-chart" aria-hidden="true">
+              <div class="chart-bar" style="height: 40%;"></div>
+              <div class="chart-bar" style="height: 30%;"></div>
+              <div class="chart-bar" style="height: 75%;"></div>
+              <div class="chart-bar" style="height: 45%;"></div>
+              <div class="chart-bar bar-accent" style="height: 88%;"></div>
+              <div class="chart-bar" style="height: 95%;"></div>
+              <div class="chart-bar" style="height: 60%;"></div>
+              <div class="chart-bar" style="height: 55%;"></div>
+              <div class="chart-bar" style="height: 70%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Offers for Investment Title -->
+        <h3 class="investment-offers-title">Current projects &amp; offers</h3>
+
+        <!-- Horizontal Investment Cards List -->
+        <div class="investment-cards-list">
+          <!-- Item 1 -->
+          <div class="inv-horizontal-card">
+            <div class="inv-media">
+              <img src="assets/invest_1.jpg?v=20261124-2" alt="Sree Ananda Sai Nagar layout near Chintapalli" class="inv-img" loading="lazy">
+            </div>
+            <div class="inv-details">
+              <h4 class="inv-title">Sree Ananda Sai Nagar</h4>
+              <p class="inv-location">Near Chintapalli Sai Baba Temple, Nagarjuna Sagar Road</p>
+              <div class="inv-specs-row">
+                <span>📐 From 150 sq. yd.</span>
+                <span>🌳 Sandalwood planting</span>
+                <span>📜 DTCP approved</span>
+                <span>✅ Spot registration</span>
+              </div>
+              <p class="inv-blurb">
+                A premium DTCP-approved layout on the Nagarjuna Sagar Road where land value appreciates with the RRR, Greenfield Highway and Future City corridors. Plant sandalwood on your plot and grow with nature.
+              </p>
+              <div class="inv-btn-row">
+                <button class="btn btn-primary btn-sm book-invest-btn" data-title="Sree Ananda Sai Nagar">Book now</button>
+                <button class="btn btn-secondary btn-sm download-brochure-btn" data-project="Sree Ananda Sai Nagar">Get layout details ↓</button>
+              </div>
+            </div>
+            <div class="inv-financials">
+              <div class="fin-stat">
+                <span class="fin-value inv-price" data-inr="₹4,999" data-usd="$60">₹4,999</span>
+                <span class="fin-label">Per sq. yd.</span>
+              </div>
+              <div class="fin-stat">
+                <span class="fin-value fin-irr">TLP 227/2021/H</span>
+                <span class="fin-label">DTCP Layout</span>
+              </div>
+              <div class="fin-stat">
+                <span class="fin-value fin-return inv-return" data-inr="Spot Reg." data-usd="Spot Reg.">Spot Reg.</span>
+                <span class="fin-label">Registration</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="inv-horizontal-card">
+            <div class="inv-media">
+              <img src="assets/invest_2.jpg?v=20261124-2" alt="Adwin Golden Meadows villa community at Turkayamjal" class="inv-img" loading="lazy">
+            </div>
+            <div class="inv-details">
+              <h4 class="inv-title">Adwin Golden Meadows</h4>
+              <p class="inv-location">Brahmanapally — Turkayamjal, close to the city and inside ORR</p>
+              <div class="inv-specs-row">
+                <span>🏡 Customised villas</span>
+                <span>✈️ Near RGIA Airport</span>
+                <span>🚗 Near Gachibowli</span>
+                <span>🌆 Near Bharat Future City</span>
+              </div>
+              <p class="inv-blurb">
+                A future-ready community of customised villas designed for modern living, with convenient connectivity to the Nagarjuna Sagar Highway, Bharat Future City, RGIA Airport and Gachibowli.
+              </p>
+              <div class="inv-btn-row">
+                <button class="btn btn-primary btn-sm book-invest-btn" data-title="Adwin Golden Meadows">Book now</button>
+                <button class="btn btn-secondary btn-sm download-brochure-btn" data-project="Adwin Golden Meadows">Get layout details ↓</button>
+              </div>
+            </div>
+            <div class="inv-financials">
+              <div class="fin-stat">
+                <span class="fin-value inv-price" data-inr="On request" data-usd="On request">On request</span>
+                <span class="fin-label">Starting price</span>
+              </div>
+              <div class="fin-stat">
+                <span class="fin-value fin-irr">Inside ORR</span>
+                <span class="fin-label">Location</span>
+              </div>
+              <div class="fin-stat">
+                <span class="fin-value fin-return inv-return" data-inr="Customised" data-usd="Customised">Customised</span>
+                <span class="fin-label">Villa plans</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="inv-horizontal-card">
+            <div class="inv-media">
+              <img src="assets/invest_3.jpg?v=20261124-2" alt="Farm land with trees for sandalwood plantation" class="inv-img" loading="lazy">
+            </div>
+            <div class="inv-details">
+              <h4 class="inv-title">Farm &amp; Sandalwood Land</h4>
+              <p class="inv-location">Nagarjuna Sagar Highway &amp; RRR corridor, Hyderabad</p>
+              <div class="inv-specs-row">
+                <span>🌱 Plant sandalwood</span>
+                <span>🏡 Guest house with pool</span>
+                <span>🌾 Farmhouse investment</span>
+                <span>🚗 Near RRR &amp; Future City</span>
+              </div>
+              <p class="inv-blurb">
+                Buy land, plant sandalwood and watch it grow. Our farm and cottage options near the Regional Ring Road and Future City suit weekend homes, guest houses with pools and long-term land value growth.
+              </p>
+              <div class="inv-btn-row">
+                <button class="btn btn-primary btn-sm book-invest-btn" data-title="Farm &amp; Sandalwood Land">Book now</button>
+                <button class="btn btn-secondary btn-sm download-brochure-btn" data-project="Farm &amp; Sandalwood Land">Get layout details ↓</button>
+              </div>
+            </div>
+            <div class="inv-financials">
+              <div class="fin-stat">
+                <span class="fin-value inv-price" data-inr="On request" data-usd="On request">On request</span>
+                <span class="fin-label">Starting price</span>
+              </div>
+              <div class="fin-stat">
+                <span class="fin-value fin-irr">4th City</span>
+                <span class="fin-label">Growth corridor</span>
+              </div>
+              <div class="fin-stat">
+                <span class="fin-value fin-return inv-return" data-inr="Sandalwood" data-usd="Sandalwood">Sandalwood</span>
+                <span class="fin-label">Planting</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: SMART SELECTION CTA BANNER -->
+    <section class="cta-banner-section" id="cta-banner">
+      <div class="container">
+        <div class="cta-banner-card">
+          <div class="cta-text-side">
+            <h2 class="cta-headline">Approved land,<br>honest guidance</h2>
+            <p class="cta-description">
+              Every listing we share carries its approval status, layout reference and rate upfront — from DTCP-approved plots along the Sagar Highway to customised villas inside ORR. No surprises at registration.
+            </p>
+            <div class="cta-actions">
+              <a href="#properties" class="btn btn-primary">Explore listings</a>
+              <button class="btn btn-secondary" id="ctaConsultBtn">Get consultation</button>
+            </div>
+          </div>
+          <div class="cta-image-side">
+            <img src="assets/cta_banner_images.jpg?v=20261124-2" alt="Keys to a new home" class="cta-side-img">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 7: RATINGS & SOCIAL PROOF -->
+    <section class="trust-section" id="reviews">
+      <div class="container">
+        <div class="trust-row">
+          <div class="trust-headline-col">
+            <h2 class="trust-title">We help you discover and own Hyderabad’s finest real estate</h2>
+          </div>
+          <div class="trust-rating-col">
+            <div class="trustpilot-box">
+              <div class="trust-brand">
+                <svg class="trustpilot-star" viewBox="0 0 24 24" width="22" height="22" fill="#00b67a"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <span class="trustpilot-wordmark">Google Reviews</span>
+              </div>
+              <div class="stars-row">
+                <span class="green-star-box">★</span>
+                <span class="green-star-box">★</span>
+                <span class="green-star-box">★</span>
+                <span class="green-star-box">★</span>
+                <span class="green-star-box">★</span>
+                <span class="trust-reviews-count">4.8/5 — 4 reviews</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+  </main>
+
+  <!-- ======================== FOOTER ======================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <!-- Brand Info -->
+        <div class="footer-col brand-col">
+          <div class="footer-brand">
+            <img src="assets/brand-emblem.png?v=20261124-2" alt="Adwin Realty" class="footer-logo">
+            <div class="footer-brand-title">
+              <span>ADWIN</span>
+              <span class="sub">REALTY</span>
+            </div>
+          </div>
+          <p class="footer-tagline">
+            Hyderabad’s trusted marketing partner for HMDA &amp; DTCP-approved open plots, luxury flats and premium villas.
+          </p>
+        </div>
+
+        <!-- Contact Col -->
+        <div class="footer-col">
+          <span class="footer-heading">Contact Us</span>
+          <div class="footer-contact-links" id="contact">
+            <p class="footer-address">
+              C-108, Phase I, Vanasthalipuram,<br>
+              Hyderabad, Telangana 500070<br>
+              Mon, Wed – Sun · 10:00 AM – 6:00 PM
+            </p>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-col">
+          <span class="footer-heading">Projects</span>
+          <ul class="footer-links-list">
+            <li><a href="#properties">Sree Ananda Sai Nagar</a></li>
+            <li><a href="#properties">Adwin Golden Meadows</a></li>
+            <li><a href="#properties">Farm &amp; Sandalwood Land</a></li>
+            <li><a href="#properties">Luxury Flats</a></li>
+            <li><a href="#services">What We Offer</a></li>
+          </ul>
+        </div>
+
+
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="footer-bottom">
+        <p class="copyright-text">© 2026 Adwin Realty. All rights reserved.</p>
+        <div class="footer-legal">
+          <span>DTCP TLP No. 227/2021/H — Sree Ananda Sai Nagar</span>
+          <a href="#" class="legal-link" id="privacyLink">Privacy policy</a>
+          <a href="#" class="legal-link" id="termsLink">Terms of service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======================== INTERACTIVE MODALS ======================== -->
+
+  <!-- 1. Book a Call / Consultation Modal -->
+  <div class="modal-backdrop" id="consultModal" role="dialog" aria-hidden="true" aria-labelledby="modalHeading">
+    <div class="modal-card">
+      <button class="modal-close-btn" id="closeConsultModal" aria-label="Close modal">×</button>
+      <div class="modal-header">
+        <span class="modal-kicker">ADWIN REALTY ADVISORY</span>
+        <h3 class="modal-title" id="modalHeading">Schedule a Consultation</h3>
+        <p class="modal-sub">Talk to our Hyderabad team about plots, flats or villas.</p>
+      </div>
+      <form class="modal-form" id="consultForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="consultName">Your Name</label>
+            <input type="text" id="consultName" required placeholder="e.g. Ramesh Reddy">
+          </div>
+          <div class="form-group">
+            <label for="consultPhone">Phone Number</label>
+            <input type="tel" id="consultPhone" required placeholder="+91 98490 00000">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="consultEmail">Email Address</label>
+          <input type="email" id="consultEmail" required placeholder="ramesh@example.com">
+        </div>
+        <div class="form-group">
+          <label for="consultPref">Interested Project / Project Type</label>
+          <select id="consultPref">
+            <option>Sree Ananda Sai Nagar</option>
+            <option>Adwin Golden Meadows</option>
+            <option>Farm &amp; Sandalwood Land</option>
+            <option>Luxury Flats</option>
+            <option>HMDA &amp; DTCP Open Plots</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="consultMsg">Notes or Requirements</label>
+          <textarea id="consultMsg" rows="3" placeholder="Budget, plot size in sq. yd., preferred location..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary w-full btn-lg">Submit Request</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. Market Your Land Modal -->
+  <div class="modal-backdrop" id="postPropModal" role="dialog" aria-hidden="true">
+    <div class="modal-card">
+      <button class="modal-close-btn" id="closePostPropModal" aria-label="Close modal">×</button>
+      <div class="modal-header">
+        <span class="modal-kicker">LAND OWNERS</span>
+        <h3 class="modal-title">Market Your Land With Adwin</h3>
+        <p class="modal-sub">We market DTCP and HMDA layouts to real buyers across Hyderabad — reach us to list yours.</p>
+      </div>
+      <form class="modal-form" id="postPropForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="sellerName">Full Name</label>
+            <input type="text" id="sellerName" required placeholder="Your Name">
+          </div>
+          <div class="form-group">
+            <label for="sellerPhone">Phone Number</label>
+            <input type="tel" id="sellerPhone" required placeholder="+91 98...">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="propLoc">Layout Location &amp; Survey / TLP Number</label>
+          <input type="text" id="propLoc" required placeholder="e.g. Chintapalli, Nagarjuna Sagar Road — TLP 227/2021/H">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="propCategory">Type</label>
+            <select id="propCategory">
+              <option>Open Plot Layout</option>
+              <option>Farm / Sandalwood Land</option>
+              <option>Villa Community</option>
+              <option>Apartment Project</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="expectedPrice">Expected Rate (₹/sq. yd.)</label>
+            <input type="text" id="expectedPrice" placeholder="e.g. 4,999">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary w-full btn-lg">Submit for Marketing</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. Property Quick View Modal -->
+  <div class="modal-backdrop" id="propDetailModal" role="dialog" aria-hidden="true">
+    <div class="modal-card modal-card-wide">
+      <button class="modal-close-btn" id="closePropModal" aria-label="Close modal">×</button>
+      <div class="prop-detail-layout" id="propDetailContent">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Layout Plan Zoom Modal -->
+  <div class="modal-backdrop" id="floorplanModal" role="dialog" aria-hidden="true">
+    <div class="modal-card modal-card-wide">
+      <button class="modal-close-btn" id="closeFloorplanModal" aria-label="Close modal">×</button>
+      <div class="fp-modal-body">
+        <h3 class="modal-title">Indicative Layout Plan</h3>
+        <p class="modal-sub">Sree Ananda Sai Nagar · DTCP Approved · TLP No. 227/2021/H</p>
+        <div class="fp-modal-img-wrap">
+          <img src="assets/floorplan_thumb.jpg?v=20261124-2" alt="Indicative layout plan" class="fp-full-img">
+        </div>
+        <div class="fp-modal-features">
+          <span class="fp-tag">30 &amp; 40 ft Black-top Roads</span>
+          <span class="fp-tag">Electricity &amp; Street Lights</span>
+          <span class="fp-tag">Underground Drainage</span>
+          <span class="fp-tag">Water Pipeline to Each Plot</span>
+          <span class="fp-tag">Sandalwood Plantation Avenue</span>
+        </div>
+        <div class="fp-modal-actions">
+          <button class="btn btn-primary download-brochure-btn" data-project="Sree Ananda Sai Nagar">Request Full Layout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/app.js?v=20261124-2"></script>
+  <script src="assets/motion.js?v=20261124-1"></script>
+</body>
+</html>
