@@ -2782,3 +2782,7 @@ body { min-width: 320px; overflow-x: clip; }
 @media(max-width:560px) { .adwin-map-heading { align-items:flex-start; flex-direction:column; gap:14px; } .adwin-map-heading p { max-width:38ch; } .adwin-map-art { min-height:320px; } .telangana-map-svg { width:100%; } .adwin-map-place { grid-template-columns:28px minmax(0,1fr) 36px; gap:8px; padding:15px 10px; } .adwin-map-place h3 { font-size:.94rem; } }
 @media(prefers-reduced-motion:reduce) { .marker-pulse { animation:none; opacity:.35; transform:none; } .adwin-map-place { transition:none; } }
 .telangana-face-img { opacity:.97; }
+/* High-contrast SVG locator labels; size tuned for phones as well as desktop. */
+.map-marker text { fill:#193b38; font:800 11px system-ui,-apple-system,sans-serif; letter-spacing:.55px; }
+.map-label-bg,.map-city-bg { fill:#fff; fill-opacity:.96; stroke:#b9d0ca; stroke-width:1.5; }
+.map-city-label { fill:#233f3a; font:700 12px system-ui,-apple-system,sans-serif; }
