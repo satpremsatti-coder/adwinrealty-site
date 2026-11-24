@@ -2808,8 +2808,6 @@ body.intro-lock { overflow:hidden; }
 .intro-wordmark { margin:12px 0 2px; color:#fff; font-size:clamp(2.8rem,8vw,5.7rem); line-height:.95; letter-spacing:.13em; font-weight:800; opacity:0; transform:translateY(18px); animation:introTextIn .8s .72s cubic-bezier(.2,.7,.2,1) forwards; text-shadow:0 8px 45px rgba(87,142,255,.27); }
 .intro-wordmark span { color:#f27a3e; font-size:.36em; letter-spacing:.42em; vertical-align:middle; }
 .intro-tagline { margin:16px 0 0; color:rgba(240,245,255,.76); font-size:clamp(.88rem,2vw,1.08rem); letter-spacing:.08em; opacity:0; animation:introTextIn .65s 1.05s ease forwards; }
-.intro-loader { margin-top:38px; width:150px; height:2px; background:rgba(255,255,255,.16); overflow:hidden; opacity:0; animation:introTextIn .35s 1.2s ease forwards; }
-.intro-loader span { display:block; height:100%; width:40%; background:linear-gradient(90deg,#3982ff,#fff,#f27a3e); box-shadow:0 0 15px #7caeff; animation:introLoadRun 1.65s 1.35s cubic-bezier(.5,0,.3,1) forwards; }
 .intro-skip { position:absolute; z-index:3; top:max(24px,env(safe-area-inset-top)); right:max(26px,env(safe-area-inset-right)); color:rgba(255,255,255,.76); border:1px solid rgba(255,255,255,.22); border-radius:999px; background:rgba(255,255,255,.06); padding:10px 15px; font:inherit; font-size:.78rem; font-weight:600; cursor:pointer; backdrop-filter:blur(12px); transition:background .2s,color .2s; }
 .intro-skip:hover,.intro-skip:focus-visible { color:#fff; background:rgba(255,255,255,.15); outline:2px solid #8fb5ff; outline-offset:3px; }
 .intro-skip span { color:#f27a3e; margin-left:5px; }

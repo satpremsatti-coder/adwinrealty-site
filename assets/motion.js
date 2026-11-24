@@ -4,7 +4,9 @@
   // A short cinematic brand reveal on every page load, always skippable.
   const intro = document.getElementById('startupIntro');
   if (intro) {
+    clearTimeout(window.__adwinIntroFailSafe);
     document.documentElement.classList.add('intro-playing');
+    document.documentElement.classList.remove('intro-pending');
     document.body.classList.add('intro-lock');
     const skip = document.getElementById('introSkip');
     let finished = false;
