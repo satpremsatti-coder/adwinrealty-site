@@ -1,16 +1,16 @@
 /**
  * Vercel Serverless Function: POST /api/consultation
- * Receives consultation bookings from #consultForm and forwards them to
- * Adwin Realty's WhatsApp (+91 8686878887) via a configured WhatsApp API provider.
+ * Receives consultation bookings from #consultForm and emails them directly
+ * to the configured Gmail recipient (CONSULTATION_TO_EMAIL) via Gmail SMTP.
  *
- * Supported providers (configured purely via Vercel Environment Variables):
- *  - meta      : Official Meta WhatsApp Cloud API
- *  - twilio    : Twilio WhatsApp API
- *  - webhook   : Generic JSON webhook (AiSensy / Wati / Interakt / Make / Zapier / n8n)
- *  - callmebot : CallMeBot personal alert endpoint
+ * Required Vercel Environment Variables:
+ *  - GMAIL_USER            : Sender Gmail address (e.g. adwinalerts@gmail.com)
+ *  - GMAIL_APP_PASSWORD    : 16-character Google App Password for GMAIL_USER
+ *  - CONSULTATION_TO_EMAIL : Receiving Gmail address (defaults to GMAIL_USER if omitted)
  */
 
-const DEFAULT_WHATSAPP_NUMBER = '918686878887';
+const nodemailer = require('nodemailer');
+
 const REQUEST_TIMEOUT_MS = 10000;
 
 function readRawBody(req) {
@@ -46,12 +46,17 @@ function cleanText(value, maxLen) {
   return String(value == null ? '' : value).trim().slice(0, maxLen);
 }
 
-// Meta template parameters disallow newlines, tabs, and >4 consecutive spaces.
-function cleanTemplateParam(value, maxLen = 1000) {
-  return cleanText(value, maxLen)
-    .replace(/[\r\n\t]+/g, ' ')
-    .replace(/\s{2,}/g, ' ')
-    .trim();
+function cleanHeaderText(value, maxLen) {
+  return cleanText(value, maxLen).replace(/[\r\n]+/g, ' ').trim();
+}
+
+function escapeHtml(value) {
+  return String(value == null ? '' : value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 function formatIstTimestamp(date = new Date()) {
@@ -66,11 +71,6 @@ function formatIstTimestamp(date = new Date()) {
   } catch {
     return date.toISOString();
   }
-}
-
-function normalizePhoneDigits(value, fallback = DEFAULT_WHATSAPP_NUMBER) {
-  const digits = String(value || '').replace(/\D/g, '');
-  return digits || fallback;
 }
 
 function buildLeadPayload(body) {
@@ -91,265 +91,127 @@ function buildLeadPayload(body) {
     return { valid: false, error: errors[0], errors };
   }
 
-  const lines = [
-    '*New Adwin Realty Consultation Request*',
+  const subject = cleanHeaderText(`New Consultation: ${name} — ${project}`, 200);
+  const textBody = [
+    'New Adwin Realty Consultation Request',
+    '-------------------------------------',
     `Name: ${name}`,
     `Phone: ${phone}`,
     `Email: ${email}`,
     `Project / Interest: ${project}`,
-    source ? `Source: ${source}` : null,
+    `Source: ${source}`,
     `Notes: ${notes || 'None provided'}`,
     `Submitted: ${submittedAt}`
-  ].filter(Boolean);
+  ].join('\n');
+
+  const telHref = `tel:${phone.replace(/[^+\d]/g, '')}`;
+  const htmlBody = `
+    <div style="font-family: Arial, Helvetica, sans-serif; max-width: 600px; margin: 0 auto; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden;">
+      <div style="background: #1248a8; color: #ffffff; padding: 18px 24px;">
+        <div style="font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.85;">Adwin Realty Website</div>
+        <h2 style="margin: 6px 0 0; font-size: 20px; font-weight: 700;">New Consultation Booking</h2>
+      </div>
+      <div style="padding: 20px 24px; background: #ffffff;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+          <tr>
+            <td style="padding: 8px 0; color: #64748b; width: 150px; vertical-align: top;"><strong>Name</strong></td>
+            <td style="padding: 8px 0;">${escapeHtml(name)}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0; color: #64748b; vertical-align: top;"><strong>Phone</strong></td>
+            <td style="padding: 8px 0;"><a href="${escapeHtml(telHref)}" style="color: #1248a8; font-weight: 700; text-decoration: none;">${escapeHtml(phone)}</a></td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0; color: #64748b; vertical-align: top;"><strong>Email</strong></td>
+            <td style="padding: 8px 0;"><a href="mailto:${escapeHtml(email)}" style="color: #1248a8; text-decoration: none;">${escapeHtml(email)}</a></td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0; color: #64748b; vertical-align: top;"><strong>Project / Interest</strong></td>
+            <td style="padding: 8px 0;"><strong>${escapeHtml(project)}</strong></td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0; color: #64748b; vertical-align: top;"><strong>Booked From</strong></td>
+            <td style="padding: 8px 0;">${escapeHtml(source)}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0; color: #64748b; vertical-align: top;"><strong>Notes</strong></td>
+            <td style="padding: 8px 0; white-space: pre-wrap;">${escapeHtml(notes || 'None provided')}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0; color: #64748b; vertical-align: top;"><strong>Submitted</strong></td>
+            <td style="padding: 8px 0; color: #475569;">${escapeHtml(submittedAt)}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  `.trim();
 
   return {
     valid: true,
     lead: { name, phone, email, project, notes, source, submittedAt },
-    messageText: lines.join('\n')
+    subject,
+    textBody,
+    htmlBody
   };
 }
 
-function resolveProvider(env = process.env) {
-  const explicit = cleanText(env.WHATSAPP_PROVIDER, 40).toLowerCase();
-  if (explicit) {
-    if (['meta', 'twilio', 'webhook', 'callmebot'].includes(explicit)) {
-      return explicit;
-    }
-    return null;
-  }
-
-  if (env.META_WA_ACCESS_TOKEN && env.META_WA_PHONE_NUMBER_ID) return 'meta';
-  if (env.TWILIO_ACCOUNT_SID && env.TWILIO_AUTH_TOKEN && env.TWILIO_WHATSAPP_FROM) return 'twilio';
-  if (env.WHATSAPP_WEBHOOK_URL) return 'webhook';
-  if (env.CALLMEBOT_API_KEY) return 'callmebot';
-  return null;
-}
-
-async function sendViaMeta({ toDigits, lead, messageText, env = process.env, fetchImpl = fetch }) {
-  const token = cleanText(env.META_WA_ACCESS_TOKEN, 512);
-  const phoneNumberId = cleanText(env.META_WA_PHONE_NUMBER_ID, 64);
-  if (!token || !phoneNumberId) {
-    throw new Error('Missing META_WA_ACCESS_TOKEN or META_WA_PHONE_NUMBER_ID');
-  }
-
-  const apiVersion = cleanText(env.META_WA_API_VERSION, 20) || 'v25.0';
-  const templateName = cleanText(env.META_WA_TEMPLATE_NAME, 128);
-  const templateLang = cleanText(env.META_WA_TEMPLATE_LANG, 20) || 'en';
-  const paramMode = cleanText(env.META_WA_TEMPLATE_PARAMS, 20).toLowerCase();
-
-  let payload;
-  if (templateName) {
-    let parameters = null;
-    if (paramMode === '0' || paramMode === 'none') {
-      parameters = null;
-    } else if (paramMode === '1' || paramMode === 'summary') {
-      parameters = [
-        {
-          type: 'text',
-          text: cleanTemplateParam(
-            `${lead.name} | ${lead.phone} | ${lead.email} | ${lead.project}${lead.notes ? ' | ' + lead.notes : ''}`,
-            1000
-          )
-        }
-      ];
-    } else if (paramMode === '6') {
-      parameters = [
-        { type: 'text', text: cleanTemplateParam(lead.name, 120) },
-        { type: 'text', text: cleanTemplateParam(lead.phone, 30) },
-        { type: 'text', text: cleanTemplateParam(lead.email, 160) },
-        { type: 'text', text: cleanTemplateParam(lead.project, 140) },
-        { type: 'text', text: cleanTemplateParam(lead.notes || 'None provided', 500) },
-        { type: 'text', text: cleanTemplateParam(lead.source || 'Website', 120) }
-      ];
-    } else {
-      parameters = [
-        { type: 'text', text: cleanTemplateParam(lead.name, 120) },
-        { type: 'text', text: cleanTemplateParam(lead.phone, 30) },
-        { type: 'text', text: cleanTemplateParam(lead.email, 160) },
-        { type: 'text', text: cleanTemplateParam(lead.project, 140) },
-        { type: 'text', text: cleanTemplateParam(lead.notes || 'None provided', 500) }
-      ];
-    }
-
-    payload = {
-      messaging_product: 'whatsapp',
-      recipient_type: 'individual',
-      to: toDigits,
-      type: 'template',
-      template: {
-        name: templateName,
-        language: { code: templateLang },
-        ...(parameters ? { components: [{ type: 'body', parameters }] } : {})
-      }
-    };
-  } else {
-    payload = {
-      messaging_product: 'whatsapp',
-      recipient_type: 'individual',
-      to: toDigits,
-      type: 'text',
-      text: {
-        preview_url: false,
-        body: messageText
-      }
-    };
-  }
-
-  const response = await fetchImpl(
-    `https://graph.facebook.com/${encodeURIComponent(apiVersion)}/${encodeURIComponent(phoneNumberId)}/messages`,
-    {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload),
-      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
-    }
-  );
-
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    const errDetail = data && data.error && data.error.message ? data.error.message : `HTTP ${response.status}`;
-    throw new Error(`Meta WhatsApp API error: ${errDetail}`);
-  }
+function getEmailConfig(env = process.env) {
+  const gmailUser = cleanHeaderText(env.GMAIL_USER, 160);
+  const gmailAppPassword = cleanText(env.GMAIL_APP_PASSWORD, 128).replace(/\s+/g, '');
+  const toEmail = cleanHeaderText(env.CONSULTATION_TO_EMAIL, 320) || gmailUser;
+  const smtpHost = cleanHeaderText(env.SMTP_HOST, 160) || 'smtp.gmail.com';
+  const smtpPort = Number(env.SMTP_PORT || 465);
+  const smtpSecure = env.SMTP_SECURE ? env.SMTP_SECURE !== 'false' : smtpPort === 465;
 
   return {
-    provider: 'meta',
-    messageId: data && Array.isArray(data.messages) && data.messages[0] ? data.messages[0].id : null
+    configured: Boolean(gmailUser && gmailAppPassword && toEmail),
+    gmailUser,
+    gmailAppPassword,
+    toEmail,
+    smtpHost,
+    smtpPort,
+    smtpSecure
   };
 }
 
-function formatTwilioWhatsAppAddress(value) {
-  const cleaned = cleanText(value, 40);
-  if (cleaned.startsWith('whatsapp:')) return cleaned;
-  const digits = cleaned.replace(/\D/g, '');
-  return digits ? `whatsapp:+${digits}` : '';
+function createGmailTransporter(config) {
+  return nodemailer.createTransport({
+    host: config.smtpHost,
+    port: config.smtpPort,
+    secure: config.smtpSecure,
+    auth: {
+      user: config.gmailUser,
+      pass: config.gmailAppPassword
+    },
+    connectionTimeout: REQUEST_TIMEOUT_MS,
+    greetingTimeout: REQUEST_TIMEOUT_MS,
+    socketTimeout: REQUEST_TIMEOUT_MS
+  });
 }
 
-async function sendViaTwilio({ toDigits, lead, messageText, env = process.env, fetchImpl = fetch }) {
-  const sid = cleanText(env.TWILIO_ACCOUNT_SID, 80);
-  const authToken = cleanText(env.TWILIO_AUTH_TOKEN, 128);
-  const from = formatTwilioWhatsAppAddress(env.TWILIO_WHATSAPP_FROM);
-  const contentSid = cleanText(env.TWILIO_CONTENT_SID, 80);
-
-  if (!sid || !authToken || !from) {
-    throw new Error('Missing TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, or TWILIO_WHATSAPP_FROM');
+async function sendConsultationEmail({ parsed, env = process.env, transporterOverride = null }) {
+  const config = getEmailConfig(env);
+  if (!config.configured) {
+    throw new Error('Email settings are not configured yet.');
   }
 
-  const form = new URLSearchParams();
-  form.set('To', `whatsapp:+${toDigits}`);
-  form.set('From', from);
+  const transporter = transporterOverride || createGmailTransporter(config);
+  const safeReplyName = cleanHeaderText(parsed.lead.name, 100).replace(/"/g, '');
+  const replyTo = safeReplyName ? `"${safeReplyName}" <${parsed.lead.email}>` : parsed.lead.email;
 
-  if (contentSid) {
-    form.set('ContentSid', contentSid);
-    form.set(
-      'ContentVariables',
-      JSON.stringify({
-        1: cleanTemplateParam(lead.name, 120),
-        2: cleanTemplateParam(lead.phone, 30),
-        3: cleanTemplateParam(lead.email, 160),
-        4: cleanTemplateParam(lead.project, 140),
-        5: cleanTemplateParam(lead.notes || 'None provided', 500)
-      })
-    );
-  } else {
-    form.set('Body', messageText);
-  }
-
-  const basicAuth = Buffer.from(`${sid}:${authToken}`).toString('base64');
-  const response = await fetchImpl(
-    `https://api.twilio.com/2010-04-01/Accounts/${encodeURIComponent(sid)}/Messages.json`,
-    {
-      method: 'POST',
-      headers: {
-        Authorization: `Basic ${basicAuth}`,
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: form.toString(),
-      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
-    }
-  );
-
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    const errDetail = data && data.message ? data.message : `HTTP ${response.status}`;
-    throw new Error(`Twilio WhatsApp API error: ${errDetail}`);
-  }
-
-  return {
-    provider: 'twilio',
-    messageId: data && data.sid ? data.sid : null
-  };
-}
-
-async function sendViaWebhook({ toDigits, lead, messageText, env = process.env, fetchImpl = fetch }) {
-  const url = cleanText(env.WHATSAPP_WEBHOOK_URL, 500);
-  if (!url) {
-    throw new Error('Missing WHATSAPP_WEBHOOK_URL');
-  }
-
-  const headers = { 'Content-Type': 'application/json' };
-  const secret = cleanText(env.WHATSAPP_WEBHOOK_SECRET, 256);
-  if (secret) {
-    headers.Authorization = `Bearer ${secret}`;
-  }
-
-  const response = await fetchImpl(url, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({
-      to: `+${toDigits}`,
-      recipientDigits: toDigits,
-      message: messageText,
-      lead
-    }),
-    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
+  const info = await transporter.sendMail({
+    from: `"Adwin Realty Website" <${config.gmailUser}>`,
+    to: config.toEmail,
+    replyTo,
+    subject: parsed.subject,
+    text: parsed.textBody,
+    html: parsed.htmlBody
   });
 
-  if (!response.ok) {
-    throw new Error(`Webhook WhatsApp delivery failed: HTTP ${response.status}`);
-  }
-
-  const data = await response.json().catch(() => ({}));
   return {
-    provider: 'webhook',
-    messageId: (data && (data.id || data.messageId)) || null
+    messageId: info && info.messageId ? info.messageId : null,
+    toEmail: config.toEmail
   };
-}
-
-async function sendViaCallMeBot({ toDigits, messageText, env = process.env, fetchImpl = fetch }) {
-  const apiKey = cleanText(env.CALLMEBOT_API_KEY, 128);
-  if (!apiKey) {
-    throw new Error('Missing CALLMEBOT_API_KEY');
-  }
-
-  const url = `https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(toDigits)}&text=${encodeURIComponent(messageText)}&apikey=${encodeURIComponent(apiKey)}`;
-  const response = await fetchImpl(url, {
-    method: 'GET',
-    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
-  });
-
-  if (!response.ok) {
-    throw new Error(`CallMeBot API error: HTTP ${response.status}`);
-  }
-
-  return { provider: 'callmebot', messageId: null };
-}
-
-async function dispatchWhatsApp({ provider, toDigits, lead, messageText, env = process.env, fetchImpl = fetch }) {
-  switch (provider) {
-    case 'meta':
-      return sendViaMeta({ toDigits, lead, messageText, env, fetchImpl });
-    case 'twilio':
-      return sendViaTwilio({ toDigits, lead, messageText, env, fetchImpl });
-    case 'webhook':
-      return sendViaWebhook({ toDigits, lead, messageText, env, fetchImpl });
-    case 'callmebot':
-      return sendViaCallMeBot({ toDigits, messageText, env, fetchImpl });
-    default:
-      throw new Error(`Unsupported WhatsApp provider: ${provider}`);
-  }
 }
 
 async function handler(req, res) {
@@ -375,36 +237,29 @@ async function handler(req, res) {
     return res.status(400).json({ ok: false, error: parsed.error });
   }
 
-  const toDigits = normalizePhoneDigits(process.env.WHATSAPP_TO_NUMBER, DEFAULT_WHATSAPP_NUMBER);
-  const whatsappUrl = `https://wa.me/${toDigits}?text=${encodeURIComponent(parsed.messageText)}`;
-  const provider = resolveProvider(process.env);
+  const config = getEmailConfig(process.env);
+  const mailtoUrl = config.toEmail
+    ? `mailto:${encodeURIComponent(config.toEmail)}?subject=${encodeURIComponent(parsed.subject)}&body=${encodeURIComponent(parsed.textBody)}`
+    : null;
 
-  if (!provider) {
+  if (!config.configured) {
     console.info(
-      '[consultation-lead:unconfigured]',
-      JSON.stringify({ toDigits, ...parsed.lead })
+      '[consultation-lead:email-unconfigured]',
+      JSON.stringify(parsed.lead)
     );
     return res.status(200).json({
       ok: true,
       delivered: false,
       configured: false,
-      mode: 'whatsapp_fallback',
-      whatsappUrl
+      ...(mailtoUrl ? { mailtoUrl } : {})
     });
   }
 
   try {
-    const result = await dispatchWhatsApp({
-      provider,
-      toDigits,
-      lead: parsed.lead,
-      messageText: parsed.messageText
-    });
-
+    const result = await sendConsultationEmail({ parsed });
     console.info(
-      '[consultation-lead:delivered]',
+      '[consultation-lead:emailed]',
       JSON.stringify({
-        provider: result.provider,
         messageId: result.messageId,
         project: parsed.lead.project,
         submittedAt: parsed.lead.submittedAt
@@ -415,24 +270,22 @@ async function handler(req, res) {
       ok: true,
       delivered: true,
       configured: true,
-      provider: result.provider,
       messageId: result.messageId
     });
   } catch (err) {
-    console.error('[consultation-lead:error]', err && err.message ? err.message : err);
+    console.error('[consultation-lead:email-error]', err && err.message ? err.message : err);
     return res.status(502).json({
       ok: false,
       delivered: false,
       configured: true,
-      provider,
-      error: 'Automatic WhatsApp delivery failed. Please use the direct WhatsApp button below.',
-      whatsappUrl
+      error: 'Automatic email delivery failed. Please call +91 8686878887 or use your email app.',
+      ...(mailtoUrl ? { mailtoUrl } : {})
     });
   }
 }
 
 module.exports = handler;
 module.exports.buildLeadPayload = buildLeadPayload;
-module.exports.resolveProvider = resolveProvider;
-module.exports.dispatchWhatsApp = dispatchWhatsApp;
-module.exports.cleanTemplateParam = cleanTemplateParam;
+module.exports.getEmailConfig = getEmailConfig;
+module.exports.sendConsultationEmail = sendConsultationEmail;
+module.exports.escapeHtml = escapeHtml;

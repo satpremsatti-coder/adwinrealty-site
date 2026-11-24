@@ -2858,7 +2858,7 @@ body.intro-lock { overflow:hidden; }
 .map-zoom-controls { position:absolute; z-index:5; top:14px; right:14px; display:grid; gap:5px; }
 .map-zoom-controls button { width:36px;height:36px;border:1px solid rgba(23,62,130,.22);border-radius:9px;background:#fff;color:#173e82;font-size:21px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(15,35,55,.15); }
 .map-zoom-controls button:hover,.map-zoom-controls button:focus-visible { background:#f1f5fb;outline:2px solid #f47a3b; }
-/* Consultation form status & WhatsApp fallback state */
+/* Consultation form status & fallback state */
 .form-status-msg { padding: 10px 12px; border-radius: var(--radius-md); background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; font-size: 0.875rem; font-weight: 600; }
 .consult-fallback-box { display: flex; flex-direction: column; gap: 14px; padding: 18px; border-radius: var(--radius-lg); background: var(--bg-page); border: 1px solid var(--border-color); }
 .consult-fallback-box[hidden], .modal-form[hidden], .form-status-msg[hidden] { display: none; }

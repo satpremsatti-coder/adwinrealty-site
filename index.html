@@ -968,11 +968,14 @@
         <button type="submit" class="btn btn-primary w-full btn-lg" id="consultSubmitBtn">Submit Request</button>
       </form>
       <div class="consult-fallback-box" id="consultFallbackBox" hidden>
-        <p class="consult-fallback-title" id="consultFallbackTitle">Send directly on WhatsApp</p>
+        <p class="consult-fallback-title" id="consultFallbackTitle">Reach our advisory team</p>
         <p class="consult-fallback-desc" id="consultFallbackDesc"></p>
         <div class="consult-fallback-actions">
-          <a href="https://wa.me/918686878887" target="_blank" rel="noopener noreferrer" class="btn btn-primary w-full btn-lg" id="consultWaLink">
-            Send on WhatsApp (+91 8686878887)
+          <a href="tel:+918686878887" class="btn btn-primary w-full btn-lg" id="consultCallLink">
+            Call +91 8686878887
+          </a>
+          <a href="#" class="btn btn-secondary w-full" id="consultMailLink" hidden>
+            Send via Email App
           </a>
           <button type="button" class="btn btn-secondary w-full" id="consultBackBtn">Edit Details</button>
         </div>
@@ -1061,7 +1064,7 @@
     (function(){const stage=document.getElementById('telanganaMapStage');if(!stage)return;let zoom=1;function setZoom(v){zoom=Math.max(1,Math.min(2.4,v));stage.style.transform='scale('+zoom+')'}document.getElementById('mapZoomIn').addEventListener('click',()=>setZoom(zoom+.2));document.getElementById('mapZoomOut').addEventListener('click',()=>setZoom(zoom-.2));document.getElementById('mapZoomReset').addEventListener('click',()=>setZoom(1));})();
   </script>
   <!-- Scripts -->
-  <script src="assets/app.js?v=20261124-5"></script>
+  <script src="assets/app.js?v=20261124-6"></script>
   <script src="assets/motion.js?v=20261124-5"></script>
 </body>
 </html>

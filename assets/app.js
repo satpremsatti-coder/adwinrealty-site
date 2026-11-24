@@ -429,13 +429,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const consultFallbackBox = document.getElementById('consultFallbackBox');
   const consultFallbackTitle = document.getElementById('consultFallbackTitle');
   const consultFallbackDesc = document.getElementById('consultFallbackDesc');
-  const consultWaLink = document.getElementById('consultWaLink');
+  const consultCallLink = document.getElementById('consultCallLink');
+  const consultMailLink = document.getElementById('consultMailLink');
   const consultBackBtn = document.getElementById('consultBackBtn');
   let consultSource = 'Website Consultation Modal';
 
   function resetConsultModalState() {
     if (consultForm) consultForm.hidden = false;
     if (consultFallbackBox) consultFallbackBox.hidden = true;
+    if (consultMailLink) {
+      consultMailLink.hidden = true;
+      consultMailLink.href = '#';
+    }
     if (consultFormStatus) {
       consultFormStatus.hidden = true;
       consultFormStatus.textContent = '';
@@ -458,24 +463,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (match) pref.value = match.value;
   }
 
-  function buildLocalWhatsappUrl(payload) {
-    const lines = [
-      '*New Adwin Realty Consultation Request*',
-      `Name: ${payload.name}`,
-      `Phone: ${payload.phone}`,
-      `Email: ${payload.email}`,
-      `Project / Interest: ${payload.project}`,
-      payload.source ? `Source: ${payload.source}` : null,
-      `Notes: ${payload.notes || 'None provided'}`
-    ].filter(Boolean);
-    return `https://wa.me/918686878887?text=${encodeURIComponent(lines.join('\n'))}`;
-  }
-
-  function showConsultFallback(whatsappUrl, titleText, descText) {
+  function showConsultFallback(titleText, descText, mailtoUrl) {
     if (consultForm) consultForm.hidden = true;
     if (consultFallbackTitle) consultFallbackTitle.textContent = titleText;
     if (consultFallbackDesc) consultFallbackDesc.textContent = descText;
-    if (consultWaLink) consultWaLink.href = whatsappUrl;
+    if (consultMailLink) {
+      if (mailtoUrl) {
+        consultMailLink.href = mailtoUrl;
+        consultMailLink.hidden = false;
+      } else {
+        consultMailLink.href = '#';
+        consultMailLink.hidden = true;
+      }
+    }
     if (consultFallbackBox) consultFallbackBox.hidden = false;
   }
 
@@ -486,13 +486,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if (consultWaLink) {
-    consultWaLink.addEventListener('click', () => {
+  if (consultCallLink) {
+    consultCallLink.addEventListener('click', () => {
       setTimeout(() => {
         if (consultForm) consultForm.reset();
         resetConsultModalState();
         closeModal(consultModal);
-        showToast('Opening WhatsApp to send your consultation request to +91 8686878887.');
+      }, 150);
+    });
+  }
+
+  if (consultMailLink) {
+    consultMailLink.addEventListener('click', () => {
+      setTimeout(() => {
+        if (consultForm) consultForm.reset();
+        resetConsultModalState();
+        closeModal(consultModal);
+        showToast('Opening your email app to send the consultation request.');
       }, 150);
     });
   }
@@ -660,24 +670,24 @@ document.addEventListener('DOMContentLoaded', () => {
           closeModal(consultModal);
           consultForm.reset();
           resetConsultModalState();
-          showToast('Thank you! Your consultation booking has been sent to Adwin Realty on WhatsApp.');
+          showToast('Thank you! Your consultation request has been sent to our team.');
           return;
         }
 
-        const fallbackUrl = (data && data.whatsappUrl) || buildLocalWhatsappUrl(payload);
+        const mailtoUrl = data && data.mailtoUrl ? data.mailtoUrl : null;
         const title = data && data.configured
-          ? 'Send via WhatsApp (+91 8686878887)'
-          : 'Tap below to send on WhatsApp';
+          ? 'Could not deliver automatically right now'
+          : 'Email alert setup pending';
         const desc = data && data.configured
-          ? 'Automatic WhatsApp delivery experienced a temporary delay. Tap below to send your pre-filled consultation directly to +91 8686878887.'
-          : 'Your consultation details are ready. Tap below to send them straight to +91 8686878887 on WhatsApp (until automatic WhatsApp API credentials are connected).';
+          ? 'Automatic email delivery hit a temporary delay. You can reach our advisory team directly by phone or email below.'
+          : 'Your details were recorded, and Gmail delivery is awaiting server setup. Call +91 8686878887 directly for immediate assistance.';
 
-        showConsultFallback(fallbackUrl, title, desc);
+        showConsultFallback(title, desc, mailtoUrl);
       } catch {
         showConsultFallback(
-          buildLocalWhatsappUrl(payload),
-          'Send via WhatsApp (+91 8686878887)',
-          'Tap below to send your pre-filled consultation details directly to +91 8686878887 on WhatsApp.'
+          'Reach our advisory team',
+          'Could not reach the server right now. Please call +91 8686878887 directly to book your consultation.',
+          null
         );
       } finally {
         if (consultSubmitBtn) {
